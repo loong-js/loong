@@ -7,6 +7,9 @@
   "command": {
     "version": {
       "conventionalCommits": true
+    },
+    "publish": {
+      "registry": "https://registry.npmjs.org"
     }
   },
   "ignoreChanges": [
