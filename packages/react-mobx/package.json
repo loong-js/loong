@@ -24,10 +24,6 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "dependencies": {
-    "@loong-js/core": "workspace:^1.1.0-alpha.7",
-    "@loong-js/react-pure": "workspace:^1.1.0-alpha.7"
-  },
   "peerDependency": {
     "mobx": ">= 4",
     "mobx-react-lite": ">= 1",
@@ -38,5 +34,9 @@
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
     "react": "^18.1.0"
+  },
+  "dependencies": {
+    "@loong-js/core": "1.1.0-alpha.7",
+    "@loong-js/react-pure": "1.1.0-alpha.7"
   }
 }

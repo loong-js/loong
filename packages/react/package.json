@@ -32,8 +32,8 @@
     "react": "^18.1.0"
   },
   "dependencies": {
-    "@loong-js/core": "workspace:^1.1.0-alpha.7",
-    "@loong-js/observer": "workspace:^1.1.0-alpha.7",
-    "@loong-js/react-pure": "workspace:^1.1.0-alpha.7"
+    "@loong-js/core": "1.1.0-alpha.7",
+    "@loong-js/observer": "1.1.0-alpha.7",
+    "@loong-js/react-pure": "1.1.0-alpha.7"
   }
 }
