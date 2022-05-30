@@ -1,0 +1,39 @@
+{
+  "name": "@loong-js/react",
+  "version": "1.1.0-alpha.7",
+  "description": "> TODO: description",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "exports": {
+    "import": "./dist/index.esm.js",
+    "require": "./dist/index.cjs.js",
+    "browser": "./dist/index.umd.js",
+    "default": "./dist/index.cjs.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "ShenChang618 <s2696922797c@outlook.com>",
+  "homepage": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "peerDependency": {
+    "react": ">= 16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "react": "^18.1.0"
+  },
+  "dependencies": {
+    "@loong-js/core": "workspace:^1.1.0-alpha.7",
+    "@loong-js/observer": "workspace:^1.1.0-alpha.7",
+    "@loong-js/react-pure": "workspace:^1.1.0-alpha.7"
+  }
+}

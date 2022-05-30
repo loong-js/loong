@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "target": "ES5",
+    "useDefineForClassFields": true,
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "preserveSymlinks": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@loong-js/core": ["./packages/core/src/index.ts"],
+      "@loong-js/observer": ["./packages/observer/src/index.ts"],
+      "@loong-js/react-pure": ["./packages/react-pure/src/index.ts"]
+    }
+  },
+  "include": ["packages/**/src/*", "packages/**/src/types/*"]
+}
