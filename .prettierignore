@@ -1,6 +1,6 @@
 node_modules
-.DS_Store
-dist
+packages/**/dist
 coverage
 .eslintcache
-packages/**/dist
+yarn.lock
+scripts

@@ -1,4 +1,4 @@
-import { observable, observe, unobserve } from '../../observer';
+import { observable, observe, unobserve } from '@loong-js/observer';
 import { Component, Watch, Prop, Injectable } from '../';
 import { IComponentConstructor } from '../annotations/component';
 import { ComponentRegistry } from '../component-registry';

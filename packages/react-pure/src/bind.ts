@@ -1,8 +1,4 @@
-import {
-  ComponentObservable,
-  ComponentObserve,
-  IComponentConstructor,
-} from '@loong-js/core';
+import type { ComponentObservable, ComponentObserve, IComponentConstructor } from '.';
 import {
   createElement,
   forwardRef,
@@ -33,7 +29,7 @@ export interface IBinderOptions {
   mode?: Lowercase<keyof typeof BinderMode>;
 }
 
-export type PropsWithout$This<P> = Omit<P, '$this'>;
+export type PropsWithout$This<P> = Omit<P, '$this'> & PropsWithChildren<P>;
 
 export interface IViewOptions {
   forwardRef?: boolean;

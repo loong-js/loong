@@ -5,7 +5,7 @@
     "declarationDir": "./dist",
     "target": "ES5",
     "useDefineForClassFields": true,
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": false,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
@@ -25,14 +25,13 @@
       "es2015",
       "dom"
     ],
-    "types": [
-      "node"
-    ],
     "paths": {
       "@loong-js/core": ["./packages/core/src/index.ts"],
       "@loong-js/observer": ["./packages/observer/src/index.ts"],
-      "@loong-js/react-pure": ["./packages/react-pure/src/index.ts"]
+      "@loong-js/react-pure": ["./packages/react-pure/src/index.ts"],
+      "@loong-js/react-mobx": ["./packages/react-mobx/src/index.ts"],
+      "@loong-js/react": ["./packages/react/src/index.ts"]
     }
   },
-  "include": ["packages/**/src/*", "packages/**/src/types/*"]
+  "include": ["packages/**/src/*", "packages/**/src/types/*", "demo/*"]
 }
