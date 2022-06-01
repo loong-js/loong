@@ -33,5 +33,9 @@
       "@loong-js/react": ["./packages/react/src/index.ts"]
     }
   },
-  "include": ["packages/**/src/*", "packages/**/src/types/*", "demo/*"]
+  "include": [
+    "packages/**/src/*",
+    "packages/**/src/types/*",
+    "demo/*"
+  ]
 }

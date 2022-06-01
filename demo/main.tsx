@@ -133,10 +133,10 @@ class Service2Impl implements Service2 {
 })
 class AppCompnent {
   @Prop()
-  name!: string;
+  name = 'test111';
 
   constructor(public service: Service, public service2: Service2) {
-    console.log(this);
+    console.log(this.name);
   }
 
   @Hook()
@@ -168,7 +168,7 @@ const binder2 = bind(ChildCompnent);
 
 const Child = binder2<{ name: string }>(({ $this }) => <div>Child {$this.service.count}</div>);
 
-const App = binder<{ name: string }>(({ $this }) => {
+const App = binder<{ name?: string }>(({ $this }) => {
   console.log('render');
   return (
     <div>
@@ -193,7 +193,7 @@ const App = binder<{ name: string }>(({ $this }) => {
  *   - C(CComponent) - B(BComponent) create
  */
 
-createRoot(document.getElementById('root') as HTMLElement).render(<App name="app">test</App>);
+createRoot(document.getElementById('root') as HTMLElement).render(<App name="has value">test</App>);
 
 // import { observable, observe } from '@/observer';
 

@@ -4,7 +4,7 @@ import { IComponentConstructor } from '../annotations/component';
 @Component()
 class TestComponent {
   @Prop()
-  name!: string;
+  name = 'test';
 
   @Prop('name')
   nameAlias!: string;
@@ -18,22 +18,23 @@ describe('Prop', () => {
   test('get prop correctly in constructor', () => {
     (TestComponent as IComponentConstructor).createComponent?.({
       initialProps: {
-        name: 'test',
+        name: 'has value',
       },
     });
 
     // TODO: Cannot get 'get value'. The same below
-    expect(console.log).toHaveBeenCalledWith(undefined);
+    // test is default value
+    expect(console.log).toHaveBeenCalledWith('test');
   });
 
   test('print prop', () => {
     const component = (TestComponent as IComponentConstructor).createComponent?.({
       initialProps: {
-        name: 'test',
+        name: 'has value',
       },
     });
 
-    expect(component?.getComponent().name).toBe(undefined);
+    expect(component?.getComponent().name).toBe('test');
   });
 
   test('print alias prop', () => {
@@ -44,5 +45,11 @@ describe('Prop', () => {
     });
 
     expect(component?.getComponent().nameAlias).toBe(undefined);
+  });
+
+  test('print default value', () => {
+    const component = (TestComponent as IComponentConstructor).createComponent?.({});
+
+    expect(component?.getComponent().name).toBe('test');
   });
 });
