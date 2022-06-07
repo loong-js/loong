@@ -10,7 +10,7 @@
     "commit": "git-cz",
     "prepare": "husky install",
     "test": "jest",
-    "publish:alpha": "npm run build && lerna publish",
+    "publish:lerna": "npm run build && lerna publish",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx packages/**/src/**"
   },
   "config": {

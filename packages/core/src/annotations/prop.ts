@@ -1,10 +1,6 @@
 import { providerToComponentRegistryMap } from '../component-registry';
 import { getInitialProps } from '../initial-props';
 
-interface IBabelPropertyDescriptor extends PropertyDescriptor {
-  initializer?: () => any;
-}
-
 export function Prop(propName?: string): PropertyDecorator {
   return ((target: object, propertyKey: string | symbol, descriptor: IBabelPropertyDescriptor) => {
     propertyKey = propName || propertyKey;

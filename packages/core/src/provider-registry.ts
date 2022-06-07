@@ -5,6 +5,8 @@ import {
   IClassProvider,
 } from './annotations/component';
 import { injectableTargetMap } from './annotations/injectable';
+import { resetInitialProvider, setInitialProvider } from './initial-provider';
+import { setInitialProviderRegistry } from './initial-provider-registry';
 import { error } from './utils/error';
 
 // Prevent circular dependency.
@@ -49,10 +51,12 @@ export class ProviderRegistry {
   }
 
   constructor(private component: IProviderConstructor, private options: ComponentRegistryOptions) {
+    setInitialProviderRegistry(this);
     this.initializeMap();
     this.registerProviders(this.providers);
     this.registerProvider(component);
     this.providerMap.forEach((provider) => this.providerInstances.push(provider?.instance));
+    resetInitialProvider();
   }
 
   private initializeMap() {
@@ -61,7 +65,7 @@ export class ProviderRegistry {
     );
   }
 
-  private registerProvider(provider: Provider, instantiatingProvider?: IProviderConstructor) {
+  registerProvider(provider: Provider, instantiatingProvider?: IProviderConstructor) {
     let Provider: IProviderConstructor | null = null;
 
     // Add a path only if the provider is different from the actual provider.
@@ -97,7 +101,6 @@ export class ProviderRegistry {
 
     const paramtypes: IProviderConstructor[] =
       Reflect.getMetadata('design:paramtypes', Provider) || [];
-
     // Register dependent providers first.
     this.registerProviders(
       paramtypes
@@ -111,7 +114,9 @@ export class ProviderRegistry {
       Provider
     );
 
+    setInitialProvider(Provider);
     let instance = new Provider(...paramtypes.map((paramtype) => this.getProvider(paramtype)));
+    resetInitialProvider();
 
     if (this.options.observable) {
       instance = this.options.observable(instance);

@@ -1,4 +1,4 @@
-import { setInitialProps } from './initial-props';
+import { resetInitialProps, setInitialProps } from './initial-props';
 import { ProviderRegistry } from './provider-registry';
 import { Props } from './props';
 import { Hooks } from './hooks';
@@ -8,18 +8,19 @@ import { Watchers } from './watchers';
 export const providerToComponentRegistryMap = new WeakMap<any, ComponentRegistry>();
 
 export class ComponentRegistry {
-  private providerRegistry: ProviderRegistry;
+  providerRegistry: ProviderRegistry;
 
-  public props: Props;
+  props: Props;
 
-  public hooks: Hooks;
+  hooks: Hooks;
 
-  public watchers: Watchers;
+  watchers: Watchers;
 
   constructor(private component: IProviderConstructor, private options: ComponentRegistryOptions) {
     setInitialProps(options.initialProps);
     this.providerRegistry = new ProviderRegistry(component, options);
-    const providers = this.getProviders();
+    resetInitialProps();
+    const providers = this.providerRegistry.getProviders();
     providers.forEach((provider) => providerToComponentRegistryMap.set(provider, this));
     this.hooks = new Hooks(providers);
     this.props = new Props(options.initialProps, () => this.watchers);
@@ -27,24 +28,14 @@ export class ComponentRegistry {
     this.watchers.createWatchers();
   }
 
-  getProviders() {
-    return this.providerRegistry.getProviders();
-  }
-
-  getDependencies() {
-    return this.providerRegistry.getDependencies();
-  }
-
-  getProvider(provider: IProviderConstructor) {
-    return this.providerRegistry.getProvider(provider);
-  }
-
   getComponent() {
-    return this.getProvider(this.component);
+    return this.providerRegistry.getProvider(this.component);
   }
 
   destroy() {
-    this.getProviders().forEach((provider) => providerToComponentRegistryMap.delete(provider));
+    this.providerRegistry
+      .getProviders()
+      .forEach((provider) => providerToComponentRegistryMap.delete(provider));
     this.watchers.destroy();
   }
 }

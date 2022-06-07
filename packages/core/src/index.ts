@@ -6,6 +6,7 @@ export { Prop } from './annotations/prop';
 export { Hook } from './annotations/hook';
 export { Watch } from './annotations/watch';
 export { Autowired } from './annotations/autowired';
+export { forwardRef } from './forward-ref';
 
 export type {
   ComponentObservable,

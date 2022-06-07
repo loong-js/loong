@@ -116,7 +116,7 @@ export function createBind(options?: ICreateBindOptions) {
             }),
           []
         );
-        const dependencies = useMemo(() => component.getDependencies(), []);
+        const dependencies = useMemo(() => component.providerRegistry.getDependencies(), []);
         const $this = useMemo(() => component.getComponent(), []);
 
         component.props.setProps(props);

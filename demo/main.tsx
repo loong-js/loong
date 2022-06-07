@@ -1,4 +1,14 @@
-import { bind, Component, Injectable, Prop, Watch, Autowired, Hook, Action } from '@loong-js/react';
+import {
+  bind,
+  Component,
+  Injectable,
+  Prop,
+  Watch,
+  Autowired,
+  Hook,
+  Action,
+  forwardRef,
+} from '@loong-js/react';
 import { createRoot } from 'react-dom/client';
 
 // abstract class Logger {
@@ -65,20 +75,23 @@ import { createRoot } from 'react-dom/client';
 
 // export const binder = bind(TestComponent);
 
-abstract class Service2 {
-  abstract service: Service;
-
-  abstract decrease(): void;
-}
-
 @Injectable()
 class Service {
+  // @Priority(PriorityType.CONTINUOUS)
   count = 0;
 
+  // @Priority(PriorityType.SYNCHRONOUS)
   count2 = 0;
 
+  // @Priority(PriorityType.IDLE)
+  count3 = 0;
+
   @Autowired()
-  service2!: Service2;
+  service2 = forwardRef(() => Service2);
+
+  constructor() {
+    console.log(this.service2);
+  }
 
   @Watch('count')
   change() {
@@ -113,9 +126,13 @@ class Service {
 }
 
 @Injectable()
-class Service2Impl implements Service2 {
+class Service2 {
   @Autowired()
   service!: Service;
+
+  // constructor() {
+  //   console.log(this.service);
+  // }
 
   decrease() {
     console.log('this.service', this.service);
@@ -123,13 +140,7 @@ class Service2Impl implements Service2 {
 }
 
 @Component({
-  providers: [
-    Service,
-    {
-      provide: Service2,
-      useClass: Service2Impl,
-    },
-  ],
+  providers: [Service, Service2],
 })
 class AppCompnent {
   @Prop()
