@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 export { Component } from './annotations/component';
+export { Module } from './annotations/module';
 export { Injectable } from './annotations/injectable';
 export { Prop } from './annotations/prop';
 export { Hook } from './annotations/hook';
