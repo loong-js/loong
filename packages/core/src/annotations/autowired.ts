@@ -17,7 +17,7 @@ export function Autowired(): PropertyDecorator {
         const providerType = resolveForwardRef(defaultValue?.()) || type;
         const Provider = getInitialProvider();
         const providerRegistry =
-          providerToComponentRegistryMap.get(this)?.providerRegistry ||
+          providerToComponentRegistryMap.get(this)?.moduleRegistry.providerRegistry ||
           getInitialProviderRegistry();
         if (Provider) {
           providerRegistry?.registerProvider(providerType, Provider);

@@ -9,7 +9,7 @@ const ora = require('ora');
 const chalk = require('chalk');
 
 const PACKAGES_PATH = path.join(__dirname, '../packages');
-const PACKAGES_NAMES = ['core', 'observer', 'react-pure', 'react-mobx', 'react'];
+const PACKAGES_NAMES = ['shared', 'core', 'observer', 'react-pure', 'react-mobx', 'react'];
 const indexTypeDtsList = [];
 
 /**

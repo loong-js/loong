@@ -1,33 +1,13 @@
 import { ComponentRegistry } from '../component-registry';
+import { ICreateModuleOptions, IModuleOptions, IProviderConstructor } from './module';
 
-export interface IProviderConstructor extends Function {
-  new (...args: any[]): any;
-}
-
-export interface IBasicProvider {
-  provide: IProviderConstructor | Function;
-}
-
-export interface IClassProvider extends IBasicProvider {
-  useClass: IProviderConstructor;
-}
-
-export type TypeProvider = IProviderConstructor;
-
-export type Provider = IClassProvider | TypeProvider;
-
-export interface IComponentOptions {
-  providers?: Provider[];
-}
-
-export interface ICreateComponentOptions {
+export interface ICreateComponentOptions extends ICreateModuleOptions {
   initialProps?: any;
-  dependencies?: any[];
   observe?: ComponentObserve;
   observable?: ComponentObservable;
 }
 
-export type ComponentRegistryOptions = ICreateComponentOptions & IComponentOptions;
+export type ComponentRegistryOptions = ICreateComponentOptions & IModuleOptions;
 
 export interface IComponentConstructor extends IProviderConstructor {
   createComponent?: (options?: ICreateComponentOptions) => ComponentRegistry;
@@ -38,7 +18,7 @@ export type ComponentObserve = (observeFunction: (...args: any[]) => any) => () 
 export type ComponentObservable = <T extends object>(value: T) => T;
 
 export function Component(
-  options: IComponentOptions = {
+  options: IModuleOptions = {
     providers: [],
   }
 ) {

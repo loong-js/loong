@@ -1,30 +1,31 @@
 import { ModuleRegistry } from '../module-registry';
+import { Dependency } from '../provider-registry';
 
 export interface IProviderConstructor extends Function {
   new (...args: any[]): any;
 }
 
+export enum ProvidedInType {
+  ROOT = 'root',
+  SELF = 'self',
+}
+
+export type Provide = IProviderConstructor | Function;
+
 export interface IBasicProvider {
-  provide: IProviderConstructor | Function;
+  provide: Provide;
+  providedIn?: Lowercase<keyof typeof ProvidedInType>;
+  useClass?: IProviderConstructor;
 }
 
-export interface IClassProvider extends IBasicProvider {
-  useClass: IProviderConstructor;
-}
-
-export type TypeProvider = IProviderConstructor;
-
-export type Provider = IClassProvider | TypeProvider;
+export type Provider = IBasicProvider | IProviderConstructor;
 
 export interface IModuleOptions {
   providers?: Provider[];
 }
 
 export interface ICreateModuleOptions {
-  initialProps?: any;
-  dependencies?: any[];
-  observe?: ModuleObserve;
-  observable?: ModuleObservable;
+  dependencies?: Dependency[];
 }
 
 export type ModuleRegistryOptions = ICreateModuleOptions & IModuleOptions;
@@ -32,10 +33,6 @@ export type ModuleRegistryOptions = ICreateModuleOptions & IModuleOptions;
 export interface IModuleConstructor extends IProviderConstructor {
   createModule?: (options?: ICreateModuleOptions) => ModuleRegistry;
 }
-
-export type ModuleObserve = (observeFunction: (...args: any[]) => any) => () => void;
-
-export type ModuleObservable = <T extends object>(value: T) => T;
 
 export function Module(
   options: IModuleOptions = {
