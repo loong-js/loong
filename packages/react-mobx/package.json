@@ -36,7 +36,7 @@
     "react": "^18.1.0"
   },
   "dependencies": {
-    "@loong-js/core": "^1.1.0-alpha.12",
+    "@loong-js/component": "^1.1.0-alpha.12",
     "@loong-js/react-pure": "^1.1.0-alpha.12"
   }
 }

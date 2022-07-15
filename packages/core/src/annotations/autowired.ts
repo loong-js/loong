@@ -1,7 +1,7 @@
-import { providerToComponentRegistryMap } from '../component-registry';
 import { resolveForwardRef } from '../forward-ref';
 import { getInitialProvider } from '../initial-provider';
 import { getInitialProviderRegistry } from '../initial-provider-registry';
+import { providerToModuleRegistryMap } from '../module-registry';
 
 export function Autowired(): PropertyDecorator {
   return ((target: object, propertyKey: string | symbol, descriptor: IBabelPropertyDescriptor) => {
@@ -17,8 +17,7 @@ export function Autowired(): PropertyDecorator {
         const providerType = resolveForwardRef(defaultValue?.()) || type;
         const Provider = getInitialProvider();
         const providerRegistry =
-          providerToComponentRegistryMap.get(this)?.moduleRegistry.providerRegistry ||
-          getInitialProviderRegistry();
+          providerToModuleRegistryMap.get(this)?.providerRegistry || getInitialProviderRegistry();
         if (Provider) {
           providerRegistry?.registerProvider(providerType, Provider);
         }

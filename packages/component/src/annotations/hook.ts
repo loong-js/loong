@@ -1,4 +1,4 @@
-import { IProviderConstructor } from './module';
+import { IProviderConstructor } from '@loong-js/core';
 
 export const targetToHookNameAndKeys = new WeakMap<IProviderConstructor, [string, string][]>();
 

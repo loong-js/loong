@@ -1,8 +1,8 @@
+import { error } from './utils/error';
 import { ITERATION_KEY } from './constants/iteration-key';
 import { EFFECTS, OPTIONS } from './constants/key-cache';
 import { TrackOperationType, TriggerOperationType } from './constants/operation-type';
 import { hasAllowStateUpdates } from './state-updates';
-import { error } from './utils/error';
 import { getKeyCache, setKeyCache } from './utils/key-cache';
 import { schedule } from './utils/schedule';
 

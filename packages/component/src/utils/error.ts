@@ -1,3 +1,3 @@
 import { createError } from '@loong-js/shared';
 
-export const error = createError('core');
+export const error = createError('component');

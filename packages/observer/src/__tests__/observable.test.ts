@@ -115,7 +115,7 @@ describe('observable', () => {
     expect(console.log).toHaveBeenCalledWith(2);
 
     expect(() => (result.count = 4)).toThrow(
-      '[@loong/observer]: data can only be updated in action.'
+      '[@loong-js/observer]: data can only be updated in action.'
     );
   });
 

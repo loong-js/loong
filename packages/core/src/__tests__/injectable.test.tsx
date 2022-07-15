@@ -1,5 +1,4 @@
-import { Component, Injectable } from '..';
-import { IComponentConstructor } from '../annotations/component';
+import { Component, Injectable, IComponentConstructor } from '@loong-js/component';
 
 describe('Injectable', () => {
   test('Using injected services', () => {

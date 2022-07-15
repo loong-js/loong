@@ -1,5 +1,3 @@
-export function error(message: string) {
-  if (process.env.NODE_ENV !== 'production') {
-    throw new Error(`[@loong/observer]: ${message}`);
-  }
-}
+import { createError } from '@loong-js/shared';
+
+export const error = createError('observer');

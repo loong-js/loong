@@ -1,5 +1,5 @@
 import { ComponentRegistry } from '../component-registry';
-import { ICreateModuleOptions, IModuleOptions, IProviderConstructor } from './module';
+import { ICreateModuleOptions, IModuleOptions, IProviderConstructor } from '@loong-js/core';
 
 export interface ICreateComponentOptions extends ICreateModuleOptions {
   initialProps?: any;

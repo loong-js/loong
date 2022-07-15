@@ -1,5 +1,5 @@
 import { targetToHookNameAndKeys } from './annotations/hook';
-import { EventEmitter } from './utils/event-emitter';
+import { EventEmitter } from '@loong-js/shared';
 
 export class Hooks {
   private hooks = new Map<string, EventEmitter>();

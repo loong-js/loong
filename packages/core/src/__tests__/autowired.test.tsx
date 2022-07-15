@@ -1,5 +1,5 @@
-import { Autowired, Component, Injectable } from '..';
-import { IComponentConstructor } from '../annotations/component';
+import { Autowired, Module, Injectable } from '..';
+import { IModuleConstructor } from '../annotations/module';
 
 describe('Autowired', () => {
   test('Using Autowired', () => {
@@ -8,17 +8,17 @@ describe('Autowired', () => {
       count = 0;
     }
 
-    @Component({
+    @Module({
       providers: [Service],
     })
-    class TestComponent {
+    class TestModule {
       @Autowired()
       service!: Service;
     }
 
-    const component = (TestComponent as IComponentConstructor).createComponent?.();
+    const component = (TestModule as IModuleConstructor).createModule?.();
 
     // TODO: Cannot get 'get value'. The same below
-    expect(component?.getComponent().service).toBe(undefined);
+    expect(component?.getModule().service).toBe(undefined);
   });
 });
