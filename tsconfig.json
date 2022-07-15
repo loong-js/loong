@@ -30,7 +30,8 @@
       "@loong-js/observer": ["./packages/observer/src/index.ts"],
       "@loong-js/react-pure": ["./packages/react-pure/src/index.ts"],
       "@loong-js/react-mobx": ["./packages/react-mobx/src/index.ts"],
-      "@loong-js/react": ["./packages/react/src/index.ts"]
+      "@loong-js/react": ["./packages/react/src/index.ts"],
+      "@loong-js/shared": ["./packages/shared/src/index.ts"]
     }
   },
   "include": [

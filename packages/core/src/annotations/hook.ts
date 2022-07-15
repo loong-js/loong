@@ -1,4 +1,4 @@
-import { IProviderConstructor } from './component';
+import { IProviderConstructor } from './module';
 
 export const targetToHookNameAndKeys = new WeakMap<IProviderConstructor, [string, string][]>();
 

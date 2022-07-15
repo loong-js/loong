@@ -1,14 +1,15 @@
 import { resetInitialProps, setInitialProps } from './initial-props';
-import { ProviderRegistry } from './provider-registry';
 import { Props } from './props';
 import { Hooks } from './hooks';
-import { ComponentRegistryOptions, IProviderConstructor } from './annotations/component';
+import { ComponentRegistryOptions } from './annotations/component';
 import { Watchers } from './watchers';
+import { ModuleRegistry } from './module-registry';
+import { IProviderConstructor } from './annotations/module';
 
 export const providerToComponentRegistryMap = new WeakMap<any, ComponentRegistry>();
 
 export class ComponentRegistry {
-  providerRegistry: ProviderRegistry;
+  moduleRegistry: ModuleRegistry;
 
   props: Props;
 
@@ -18,10 +19,15 @@ export class ComponentRegistry {
 
   constructor(private component: IProviderConstructor, private options: ComponentRegistryOptions) {
     setInitialProps(options.initialProps);
-    this.providerRegistry = new ProviderRegistry(component, options);
+    this.moduleRegistry = new ModuleRegistry(component, options);
     resetInitialProps();
-    const providers = this.providerRegistry.getProviders();
-    providers.forEach((provider) => providerToComponentRegistryMap.set(provider, this));
+    if (options.observable) {
+      this.moduleRegistry.providerRegistry.setProviderInstance(
+        component,
+        options.observable(this.getComponent())
+      );
+    }
+    const providers = this.moduleRegistry.providerRegistry.getProviders();
     this.hooks = new Hooks(providers);
     this.props = new Props(options.initialProps, () => this.watchers);
     this.watchers = new Watchers(providers, options.observe);
@@ -29,11 +35,11 @@ export class ComponentRegistry {
   }
 
   getComponent() {
-    return this.providerRegistry.getProvider(this.component);
+    return this.moduleRegistry.getModule();
   }
 
   destroy() {
-    this.providerRegistry
+    this.moduleRegistry.providerRegistry
       .getProviders()
       .forEach((provider) => providerToComponentRegistryMap.delete(provider));
     this.watchers.destroy();

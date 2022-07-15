@@ -1,5 +1,5 @@
 import { error } from '../utils/error';
-import { IProviderConstructor } from './component';
+import { IProviderConstructor } from './module';
 
 export interface IWatchParameters {
   predicate?: Predicate;
