@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.16](https://github.com/loong-js/loong/compare/v1.1.0-alpha.12...v1.1.0-alpha.16) (2022-07-15)
+
+
+### Bug Fixes
+
+* **@loong-js/core:** fix autowired cache ([dede916](https://github.com/loong-js/loong/commit/dede91682cabf83131723f305944aa0770b79145))
+
+
+
+
+
 # [1.1.0-alpha.12](https://github.com/loong-js/loong/compare/v1.1.0-alpha.11...v1.1.0-alpha.12) (2022-06-07)
 
 
