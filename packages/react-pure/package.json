@@ -32,6 +32,6 @@
     "react": "^18.1.0"
   },
   "dependencies": {
-    "@loong-js/core": "^1.1.0-alpha.16"
+    "@loong-js/component": "^1.1.0-alpha.16"
   }
 }

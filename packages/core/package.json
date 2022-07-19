@@ -29,5 +29,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@loong-js/shared": "^1.1.0-alpha.16"
   }
 }

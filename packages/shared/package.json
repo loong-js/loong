@@ -1,5 +1,5 @@
 {
-  "name": "@loong-js/observer",
+  "name": "@loong-js/shared",
   "version": "1.1.0-alpha.16",
   "description": "> TODO: description",
   "types": "dist/index.d.ts",
@@ -24,7 +24,14 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
+  "peerDependency": {
+    "react": ">= 16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "react": "^18.1.0"
+  },
   "dependencies": {
-    "@loong-js/shared": "^1.1.0-alpha.16"
+    "@loong-js/core": "^1.1.0-alpha.12"
   }
 }

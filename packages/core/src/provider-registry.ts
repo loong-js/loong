@@ -1,10 +1,7 @@
-import {
-  ComponentRegistryOptions,
-  IProviderConstructor,
-  Provider,
-  IClassProvider,
-} from './annotations/component';
+import { isPlainObject } from '@loong-js/shared';
+import { IBasicProvider, IProviderConstructor, Provide, Provider } from './annotations/module';
 import { injectableTargetMap } from './annotations/injectable';
+import { ModuleRegistryOptions } from './annotations/module';
 import { resetInitialProvider, setInitialProvider } from './initial-provider';
 import { setInitialProviderRegistry } from './initial-provider-registry';
 import { error } from './utils/error';
@@ -17,28 +14,25 @@ enum ProviderStatus {
 
 interface IProvider {
   status: ProviderStatus;
+  basicProvider: IBasicProvider;
   instance?: any;
 }
 
-function hasUseClass(provider: Provider): provider is IClassProvider {
-  return (
-    typeof provider === 'object' &&
-    provider.provide &&
-    provider.useClass &&
-    provider.provide !== provider.useClass
-  );
+export type Dependency = Partial<IProvider> | any;
+
+function hasBasicProvider(provider: Provider): provider is IBasicProvider {
+  if (provider && typeof provider === 'object') {
+    if (provider.provide) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export class ProviderRegistry {
-  private providerMap = new Map<IProviderConstructor, IProvider>();
+  private providerMap = new Map<Provide, IProvider>();
 
-  private dependencyMap = new Map<IProviderConstructor, any>();
-
-  // Create a path that allows the provider to find its corresponding actual provider.
-  private providerToClassProvider = new Map<
-    IProviderConstructor | Function,
-    IProviderConstructor
-  >();
+  private dependencyMap = new Map<Provide, IProvider>();
 
   private providerInstances: any[] = [];
 
@@ -50,80 +44,92 @@ export class ProviderRegistry {
     return this.options.dependencies || [];
   }
 
-  constructor(private component: IProviderConstructor, private options: ComponentRegistryOptions) {
+  constructor(private module: IProviderConstructor, private options: ModuleRegistryOptions) {
     setInitialProviderRegistry(this);
     this.initializeMap();
     this.registerProviders(this.providers);
-    this.registerProvider(component);
+    this.registerProvider(module);
     this.providerMap.forEach((provider) => this.providerInstances.push(provider?.instance));
     resetInitialProvider();
   }
 
   private initializeMap() {
-    this.dependencies.forEach((dependency) =>
-      this.dependencyMap.set(dependency.constructor, dependency)
-    );
+    this.dependencies.forEach((dependency) => {
+      if (isPlainObject(dependency)) {
+        this.dependencyMap.set(dependency.basicProvider.provide, dependency);
+      } else {
+        const provide = dependency.constructor;
+        this.dependencyMap.set(provide, {
+          status: ProviderStatus.INSTANTIATED,
+          basicProvider: {
+            provide: provide,
+            useClass: provide,
+          },
+          instance: dependency,
+        });
+      }
+    });
   }
 
   registerProvider(provider: Provider, instantiatingProvider?: IProviderConstructor) {
-    let Provider: IProviderConstructor | null = null;
+    let basicProvider: IBasicProvider;
 
-    // Add a path only if the provider is different from the actual provider.
-    if (hasUseClass(provider)) {
-      Provider = provider.useClass;
-      this.providerToClassProvider.set(provider.provide, provider.useClass);
-    } else if (typeof provider === 'function') {
-      Provider = provider;
+    if (hasBasicProvider(provider)) {
+      basicProvider = provider;
+      basicProvider.useClass = provider.useClass || (provider.provide as IProviderConstructor);
+    } else {
+      basicProvider = {
+        // Type of provider to look for.
+        provide: provider,
+        useClass: provider,
+      };
     }
 
-    if (!Provider) {
-      return;
+    if (!basicProvider.provide) {
+      error('Providers must have the provide attribute');
     }
+
+    // Actual instantiated provider.
+    const Provider = basicProvider.useClass as IProviderConstructor;
+    const provide = basicProvider.provide as Provide;
 
     // Check whether the provider is registered with injectable.
-    if (this.component !== Provider && !injectableTargetMap.has(Provider)) {
+    if (this.module !== Provider && !injectableTargetMap.has(Provider)) {
       error(`${Provider.name} is not registered with injectable`);
     }
 
-    if (this.providerMap.get(Provider)?.status === ProviderStatus.INSTANTIATED) {
+    if (this.providerMap.get(provide)?.status === ProviderStatus.INSTANTIATED) {
       return;
     }
 
-    if (this.providerMap.get(Provider)?.status === ProviderStatus.INSTANTIATING) {
+    if (this.providerMap.get(provide)?.status === ProviderStatus.INSTANTIATING) {
       error(
         `Circular dependency found ${Provider.name} -> ${instantiatingProvider?.name} -> ${Provider.name}`
       );
     }
 
-    this.providerMap.set(Provider, {
+    this.providerMap.set(provide, {
+      basicProvider,
       status: ProviderStatus.INSTANTIATING,
     });
 
     const paramtypes: IProviderConstructor[] =
       Reflect.getMetadata('design:paramtypes', Provider) || [];
-    // Register dependent providers first.
-    this.registerProviders(
-      paramtypes
-        .map((paramtype) => this.getProviderType(paramtype))
-        .filter(
-          (provider) =>
-            !!this.providers.find((item) =>
-              hasUseClass(item) ? item.provide === provider : item === provider
-            )
-        ),
-      Provider
-    );
 
-    setInitialProvider(Provider);
-    let instance = new Provider(...paramtypes.map((paramtype) => this.getProvider(paramtype)));
-    resetInitialProvider();
-
-    if (this.options.observable) {
-      instance = this.options.observable(instance);
+    if (this.module !== Provider) {
+      // Register dependent providers first.
+      this.registerProviders(paramtypes, Provider);
     }
 
-    this.providerMap.set(Provider, {
+    setInitialProvider(Provider);
+    const instance = new Provider(
+      ...paramtypes.map((designProvide) => this.getProvider(designProvide))
+    );
+    resetInitialProvider();
+
+    this.providerMap.set(provide, {
       instance,
+      basicProvider,
       status: ProviderStatus.INSTANTIATED,
     });
   }
@@ -134,15 +140,18 @@ export class ProviderRegistry {
     });
   }
 
-  private getProviderType(provider: IProviderConstructor) {
-    return this.providerToClassProvider.has(provider)
-      ? (this.providerToClassProvider.get(provider) as IProviderConstructor)
-      : provider;
+  getProvider(provide: Provide) {
+    return this.providerMap.get(provide)?.instance || this.dependencyMap.get(provide)?.instance;
   }
 
-  getProvider(provider: IProviderConstructor) {
-    provider = this.getProviderType(provider);
-    return this.providerMap.get(provider)?.instance || this.dependencyMap.get(provider);
+  setProviderInstance(provider: IProviderConstructor, instance: any) {
+    const result = this.providerMap.get(provider);
+    if (result) {
+      this.providerMap.set(provider, {
+        ...result,
+        instance,
+      });
+    }
   }
 
   getProviders() {
@@ -150,13 +159,12 @@ export class ProviderRegistry {
   }
 
   getDependencies() {
-    const providerInstances = [...this.providerInstances];
-    this.dependencies.forEach((provider) => {
-      const match = providerInstances.find((item) => item === provider.constructor);
-      if (!match) {
-        providerInstances.push(provider);
+    const dependencies = Array.from(this.providerMap.values());
+    this.dependencyMap.forEach((dependency, provide) => {
+      if (!this.providerMap.has(provide)) {
+        dependencies.push(dependency);
       }
     });
-    return providerInstances;
+    return dependencies;
   }
 }
