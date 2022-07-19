@@ -5,21 +5,23 @@ describe('observable', () => {
     (observable as any)();
 
     expect(console.warn).toHaveBeenCalledWith(
-      '[@loong/observer]: undefined cannot be made observable'
+      '[@loong-js/observer]: undefined cannot be made observable'
     );
 
     (observable as any)(1);
 
-    expect(console.warn).toHaveBeenCalledWith('[@loong/observer]: 1 cannot be made observable');
+    expect(console.warn).toHaveBeenCalledWith('[@loong-js/observer]: 1 cannot be made observable');
 
     (observable as any)(null);
 
-    expect(console.warn).toHaveBeenCalledWith('[@loong/observer]: null cannot be made observable');
+    expect(console.warn).toHaveBeenCalledWith(
+      '[@loong-js/observer]: null cannot be made observable'
+    );
 
     (observable as any)('string type');
 
     expect(console.warn).toHaveBeenCalledWith(
-      '[@loong/observer]: string type cannot be made observable'
+      '[@loong-js/observer]: string type cannot be made observable'
     );
   });
 
