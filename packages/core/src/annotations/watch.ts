@@ -1,5 +1,5 @@
 import { error } from '../utils/error';
-import { IProviderConstructor } from '@loong-js/core';
+import { IProviderConstructor } from '../';
 
 export interface IWatchParameters {
   predicate?: Predicate;

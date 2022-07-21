@@ -1,12 +1,12 @@
-import { Component, Hook, Injectable } from '..';
-import { IComponentConstructor } from '../annotations/component';
+import { Module, Hook, Injectable } from '../';
+import { ModuleConstructor } from '../annotations/module';
 
 const HookAny = Hook as any;
 
 describe('Hook', () => {
   test('trigger hook on component', () => {
-    @Component()
-    class TestComponent {
+    @Module()
+    class TestModule {
       constructor() {
         // noop
       }
@@ -17,7 +17,7 @@ describe('Hook', () => {
       }
     }
 
-    const component = (TestComponent as IComponentConstructor).createComponent?.() as any;
+    const component = (TestModule as ModuleConstructor).create?.() as any;
 
     component?.hooks.invokeHook('testHook');
 
@@ -25,8 +25,8 @@ describe('Hook', () => {
   });
 
   test('trigger alias hook', () => {
-    @Component()
-    class TestComponent {
+    @Module()
+    class TestModule {
       constructor() {
         // noop
       }
@@ -37,7 +37,7 @@ describe('Hook', () => {
       }
     }
 
-    const component = (TestComponent as IComponentConstructor).createComponent?.() as any;
+    const component = (TestModule as ModuleConstructor).create?.() as any;
 
     component?.hooks.invokeHook('testHook');
 
@@ -53,12 +53,12 @@ describe('Hook', () => {
       }
     }
 
-    @Component({
+    @Module({
       providers: [Service],
     })
-    class TestComponent {}
+    class TestModule {}
 
-    const component = (TestComponent as IComponentConstructor).createComponent?.() as any;
+    const component = (TestModule as ModuleConstructor).create?.() as any;
 
     component?.hooks.invokeHook('testHook');
 

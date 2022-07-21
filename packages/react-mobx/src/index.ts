@@ -1,6 +1,7 @@
 export {
   Watch,
   Component,
+  Module,
   Prop,
   Injectable,
   Autowired,

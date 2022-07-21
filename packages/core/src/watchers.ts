@@ -1,4 +1,4 @@
-import { ComponentObserve } from './annotations/component';
+import { ModuleObserve } from './';
 import { IWatchParameters, targetToWatchNameAndKeys } from './annotations/watch';
 
 export class Watchers {
@@ -6,7 +6,7 @@ export class Watchers {
 
   private watcher: Watcher | null = null;
 
-  constructor(private providers: any[], private observe?: ComponentObserve) {}
+  constructor(private providers: any[], private observe?: ModuleObserve) {}
 
   createWatchers() {
     const observe = this.observe;
@@ -54,7 +54,7 @@ class Watcher {
     private provider: any,
     private effect: () => void,
     private parameters: IWatchParameters,
-    private observe: ComponentObserve
+    private observe: ModuleObserve
   ) {
     this.unobserve = observe(this.watch);
   }

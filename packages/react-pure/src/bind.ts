@@ -1,4 +1,4 @@
-import type { ComponentObservable, ComponentObserve, IComponentConstructor } from '.';
+import type { ModuleObservable, ModuleObserve, ComponentConstructor } from '.';
 import {
   createElement,
   forwardRef,
@@ -15,7 +15,7 @@ import {
 } from 'react';
 import { BindContext } from './context';
 
-export type PropsWith$This<T extends IComponentConstructor, P = Record<string, never>> = {
+export type PropsWith$This<T extends ComponentConstructor, P = Record<string, never>> = {
   $this: InstanceType<T>;
 } & PropsWithChildren<P>;
 
@@ -54,12 +54,12 @@ interface ICreateBindOptions {
     Component: FunctionComponent<P> | ForwardRefRenderFunction<T, P>,
     options?: IViewOptions
   ) => FunctionComponent<P> | ForwardRefRenderFunction<T, P>;
-  observe?: ComponentObserve;
-  observable?: ComponentObservable;
+  observe?: ModuleObserve;
+  observable?: ModuleObservable;
 }
 
 export function createBind(options?: ICreateBindOptions) {
-  return function bind<T extends IComponentConstructor>(Component: T) {
+  return function bind<T extends ComponentConstructor>(Component: T) {
     function binder<P = Record<string, never>>(
       ReactComponent: FunctionComponent<PropsWith$This<T, P>>,
       binderOptions?: IBinderOptions
@@ -108,7 +108,7 @@ export function createBind(options?: ICreateBindOptions) {
 
         const component = useMemo(
           () =>
-            (Component as Required<IComponentConstructor>).createComponent({
+            (Component as Required<ComponentConstructor>).create({
               initialProps: props,
               observe: options?.observe,
               observable: options?.observable,
@@ -116,10 +116,7 @@ export function createBind(options?: ICreateBindOptions) {
             }),
           []
         );
-        const dependencies = useMemo(
-          () => component.moduleRegistry.providerRegistry.getDependencies(),
-          []
-        );
+        const dependencies = useMemo(() => component.providerRegistry.getDependencies(), []);
         const $this = useMemo(() => component.getComponent(), []);
 
         component.props.setProps(props);

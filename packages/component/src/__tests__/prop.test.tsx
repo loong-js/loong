@@ -1,5 +1,8 @@
+import { Watch } from '@loong-js/core';
+import { observable, observe, unobserve } from '@loong-js/observer';
 import { Component, Prop } from '..';
-import { IComponentConstructor } from '../annotations/component';
+import { ComponentConstructor } from '../annotations/component';
+import { ComponentRegistry } from '../component-registry';
 
 @Component()
 class TestComponent {
@@ -16,7 +19,7 @@ class TestComponent {
 
 describe('Prop', () => {
   test('get prop correctly in constructor', () => {
-    (TestComponent as IComponentConstructor).createComponent?.({
+    (TestComponent as ComponentConstructor).create?.({
       initialProps: {
         name: 'has value',
       },
@@ -28,7 +31,7 @@ describe('Prop', () => {
   });
 
   test('print prop', () => {
-    const component = (TestComponent as IComponentConstructor).createComponent?.({
+    const component = (TestComponent as ComponentConstructor).create?.({
       initialProps: {
         name: 'has value',
       },
@@ -38,7 +41,7 @@ describe('Prop', () => {
   });
 
   test('print alias prop', () => {
-    const component = (TestComponent as IComponentConstructor).createComponent?.({
+    const component = (TestComponent as ComponentConstructor).create?.({
       initialProps: {
         name: 'test',
       },
@@ -48,8 +51,44 @@ describe('Prop', () => {
   });
 
   test('print default value', () => {
-    const component = (TestComponent as IComponentConstructor).createComponent?.({});
+    const component = (TestComponent as ComponentConstructor).create?.({});
 
     expect(component?.getComponent().name).toBe('test');
+  });
+
+  test('watch the change of prop', () => {
+    @Component()
+    class TestComponent {
+      count = 0;
+
+      @Prop()
+      name!: string;
+
+      @Watch('name')
+      change() {
+        this.count++;
+      }
+    }
+
+    const module = (TestComponent as ComponentConstructor).create?.({
+      observable: (value) =>
+        observable(value, {
+          strict: false,
+        }),
+      observe: (observeFunction: (...args: any[]) => any) => {
+        const runner = observe(observeFunction);
+        return () => {
+          unobserve(runner);
+        };
+      },
+    }) as ComponentRegistry;
+
+    expect(module.getComponent().count).toBe(1);
+
+    module.getComponent().count++;
+
+    setTimeout(() => {
+      expect(module.getComponent().count).toBe(2);
+    });
   });
 });

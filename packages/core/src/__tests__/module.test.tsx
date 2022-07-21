@@ -1,5 +1,5 @@
 import { Module, Injectable } from '..';
-import { IModuleConstructor } from '../annotations/module';
+import { ModuleConstructor } from '../annotations/module';
 import { ModuleRegistry } from '../module-registry';
 
 abstract class LoggerService {
@@ -29,13 +29,13 @@ class TestModule {
 
 describe('Injectable', () => {
   test('Using injected services', () => {
-    const component = (TestModule as IModuleConstructor).createModule?.();
+    const component = (TestModule as ModuleConstructor).create?.();
 
     expect(component).toBeInstanceOf(ModuleRegistry);
   });
 
   test('Using actual injection is a different provider', () => {
-    const component = (TestModule as IModuleConstructor).createModule?.();
+    const component = (TestModule as ModuleConstructor).create?.();
 
     component?.getModule().loggerService.log();
 

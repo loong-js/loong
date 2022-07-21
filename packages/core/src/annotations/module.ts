@@ -10,6 +10,7 @@ export enum ProvidedInType {
   SELF = 'self',
 }
 
+// It may be an abstract class, and the type is Function.
 export type Provide = IProviderConstructor | Function;
 
 export interface IBasicProvider {
@@ -20,31 +21,45 @@ export interface IBasicProvider {
 
 export type Provider = IBasicProvider | IProviderConstructor;
 
+export type Providers = Provider[];
+
 export interface IModuleOptions {
-  providers?: Provider[];
+  imports?: ModuleConstructor[];
+  providers?: Providers;
 }
 
 export interface ICreateModuleOptions {
+  useProvidedIn?: boolean;
   dependencies?: Dependency[];
+  observe?: ModuleObserve;
+  observable?: ModuleObservable;
 }
+
+export type ModuleObserve = (observeFunction: (...args: any[]) => any) => () => void;
+
+export type ModuleObservable = <T extends object>(value: T) => T;
 
 export type ModuleRegistryOptions = ICreateModuleOptions & IModuleOptions;
 
-export interface IModuleConstructor extends IProviderConstructor {
-  createModule?: (options?: ICreateModuleOptions) => ModuleRegistry;
+export interface IModuleConstructor<O, R> extends IProviderConstructor {
+  create?: (options?: O) => R;
+  options?: IModuleOptions;
+  type?: symbol;
 }
 
-export function Module(
-  options: IModuleOptions = {
-    providers: [],
-  }
-) {
-  return (target: IModuleConstructor) => {
-    target.createModule = (createOptions?: ICreateModuleOptions) =>
+export type ModuleConstructor = IModuleConstructor<ICreateModuleOptions, ModuleRegistry>;
+
+export const MODULE_TARGET_TYPE = Symbol('MODULE');
+
+export function Module(options?: IModuleOptions) {
+  return (target: ModuleConstructor) => {
+    target.options = options;
+    target.create = (createOptions?: ICreateModuleOptions) =>
       new ModuleRegistry(target, {
         ...options,
         ...createOptions,
       });
+    target.type = MODULE_TARGET_TYPE;
     return target;
   };
 }

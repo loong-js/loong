@@ -1,11 +1,9 @@
-import { Watchers } from './watchers';
+export class Props<T = any> {
+  constructor(private props: any, private afterChange?: (props: T) => void) {}
 
-export class Props {
-  constructor(private props: any, private getWatchers: () => Watchers) {}
-
-  setProps(props: any) {
+  setProps(props: T) {
     this.props = props;
-    this.getWatchers().watchAfterCheckObservedProps();
+    this.afterChange?.(props);
   }
 
   getProps() {

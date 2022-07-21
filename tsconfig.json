@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "declarationDir": "./dist",
-    "target": "ES5",
+    "target": "ES6",
     "useDefineForClassFields": true,
     "allowJs": true,
     "skipLibCheck": false,
@@ -27,6 +27,7 @@
     ],
     "paths": {
       "@loong-js/core": ["./packages/core/src/index.ts"],
+      "@loong-js/component": ["./packages/component/src/index.ts"],
       "@loong-js/observer": ["./packages/observer/src/index.ts"],
       "@loong-js/react-pure": ["./packages/react-pure/src/index.ts"],
       "@loong-js/react-mobx": ["./packages/react-mobx/src/index.ts"],

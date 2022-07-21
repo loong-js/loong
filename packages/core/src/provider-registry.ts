@@ -20,7 +20,7 @@ interface IProvider {
 
 export type Dependency = Partial<IProvider> | any;
 
-function hasBasicProvider(provider: Provider): provider is IBasicProvider {
+export function hasBasicProvider(provider: Provider): provider is IBasicProvider {
   if (provider && typeof provider === 'object') {
     if (provider.provide) {
       return true;
@@ -34,8 +34,6 @@ export class ProviderRegistry {
 
   private dependencyMap = new Map<Provide, IProvider>();
 
-  private providerInstances: any[] = [];
-
   private get providers() {
     return this.options.providers || [];
   }
@@ -44,12 +42,16 @@ export class ProviderRegistry {
     return this.options.dependencies || [];
   }
 
-  constructor(private module: IProviderConstructor, private options: ModuleRegistryOptions) {
+  constructor(
+    private module: IProviderConstructor,
+    private options: ModuleRegistryOptions,
+    private afterRegistration?: (providerRegistry: ProviderRegistry) => void
+  ) {
     setInitialProviderRegistry(this);
     this.initializeMap();
     this.registerProviders(this.providers);
+    this.afterRegistration?.(this);
     this.registerProvider(module);
-    this.providerMap.forEach((provider) => this.providerInstances.push(provider?.instance));
     resetInitialProvider();
   }
 
@@ -151,11 +153,26 @@ export class ProviderRegistry {
         ...result,
         instance,
       });
+    } else {
+      // The current function is to set the module,
+      // which has already been installed.
+      this.providerMap.set(provider, {
+        instance,
+        basicProvider: {
+          provide: provider,
+          useClass: provider,
+        },
+        status: ProviderStatus.INSTANTIATED,
+      });
     }
   }
 
   getProviders() {
-    return this.providerInstances;
+    const providers: any[] = [];
+    this.providerMap.forEach((provider) => {
+      providers.push(provider.instance);
+    });
+    return providers;
   }
 
   getDependencies() {

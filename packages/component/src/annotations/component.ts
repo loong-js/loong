@@ -1,33 +1,25 @@
 import { ComponentRegistry } from '../component-registry';
-import { ICreateModuleOptions, IModuleOptions, IProviderConstructor } from '@loong-js/core';
+import type { ICreateModuleOptions, IModuleOptions, IModuleConstructor } from '@loong-js/core';
 
 export interface ICreateComponentOptions extends ICreateModuleOptions {
   initialProps?: any;
-  observe?: ComponentObserve;
-  observable?: ComponentObservable;
 }
 
 export type ComponentRegistryOptions = ICreateComponentOptions & IModuleOptions;
 
-export interface IComponentConstructor extends IProviderConstructor {
-  createComponent?: (options?: ICreateComponentOptions) => ComponentRegistry;
-}
+export type ComponentConstructor = IModuleConstructor<ICreateComponentOptions, ComponentRegistry>;
 
-export type ComponentObserve = (observeFunction: (...args: any[]) => any) => () => void;
+export const COMPONENT_TARGET_TYPE = Symbol('COMPONENT');
 
-export type ComponentObservable = <T extends object>(value: T) => T;
-
-export function Component(
-  options: IModuleOptions = {
-    providers: [],
-  }
-) {
-  return (target: IComponentConstructor) => {
-    target.createComponent = (createOptions?: ICreateComponentOptions) =>
+export function Component(options?: IModuleOptions) {
+  return (target: ComponentConstructor) => {
+    target.options = options;
+    target.create = (createOptions?: ICreateComponentOptions) =>
       new ComponentRegistry(target, {
         ...options,
         ...createOptions,
       });
+    target.type = COMPONENT_TARGET_TYPE;
     return target;
   };
 }

@@ -1,9 +1,7 @@
 import { ModuleRegistry, providerToModuleRegistryMap, IProviderConstructor } from '@loong-js/core';
 import { resetInitialProps, setInitialProps } from './initial-props';
 import { Props } from './props';
-import { Hooks } from './hooks';
 import { ComponentRegistryOptions } from './annotations/component';
-import { Watchers } from './watchers';
 
 export const providerToComponentRegistryMap = providerToModuleRegistryMap as Map<
   any,
@@ -11,24 +9,23 @@ export const providerToComponentRegistryMap = providerToModuleRegistryMap as Map
 >;
 
 export class ComponentRegistry extends ModuleRegistry {
+  private componentRegistries: ComponentRegistry[] = [];
+
   props: Props;
-
-  hooks: Hooks;
-
-  watchers: Watchers;
 
   constructor(private component: IProviderConstructor, options: ComponentRegistryOptions) {
     setInitialProps(options.initialProps);
     super(component, options);
     resetInitialProps();
-    if (options.observable) {
-      this.providerRegistry.setProviderInstance(component, options.observable(this.getComponent()));
-    }
-    const providers = this.providerRegistry.getProviders();
-    this.hooks = new Hooks(providers);
-    this.props = new Props(options.initialProps, () => this.watchers);
-    this.watchers = new Watchers(providers, options.observe);
-    this.watchers.createWatchers();
+    this.componentRegistries = this.moduleRegistries.filter(
+      (moduleRegistry) => moduleRegistry instanceof ComponentRegistry
+    ) as ComponentRegistry[];
+    this.props = new Props(options.initialProps, (props) => {
+      this.componentRegistries.forEach((componentRegistry) => {
+        componentRegistry.props.setProps(props);
+      });
+      this.watchers.watchAfterCheckObservedProps();
+    });
   }
 
   getComponent() {

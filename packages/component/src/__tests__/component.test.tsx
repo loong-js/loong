@@ -1,5 +1,6 @@
-import { Component, Injectable } from '..';
-import { IComponentConstructor } from '../annotations/component';
+import { Injectable } from '@loong-js/core';
+import { Component } from '..';
+import { ComponentConstructor } from '../annotations/component';
 import { ComponentRegistry } from '../component-registry';
 
 abstract class LoggerService {
@@ -29,13 +30,13 @@ class TestComponent {
 
 describe('Injectable', () => {
   test('Using injected services', () => {
-    const component = (TestComponent as IComponentConstructor).createComponent?.();
+    const component = (TestComponent as ComponentConstructor).create?.();
 
     expect(component).toBeInstanceOf(ComponentRegistry);
   });
 
   test('Using actual injection is a different provider', () => {
-    const component = (TestComponent as IComponentConstructor).createComponent?.();
+    const component = (TestComponent as ComponentConstructor).create?.();
 
     component?.getComponent().loggerService.log();
 

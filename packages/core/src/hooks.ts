@@ -1,5 +1,5 @@
-import { targetToHookNameAndKeys } from './annotations/hook';
 import { EventEmitter } from '@loong-js/shared';
+import { targetToHookNameAndKeys } from './annotations/hook';
 
 export class Hooks {
   private hooks = new Map<string, EventEmitter>();
@@ -25,5 +25,9 @@ export class Hooks {
     ...args: Parameters<LoongCore.IHookParameters[T]>
   ): ReturnType<LoongCore.IHookParameters[T]>[] {
     return this.hooks.get(hookName)?.emit(...args) as ReturnType<LoongCore.IHookParameters[T]>[];
+  }
+
+  destroy() {
+    this.hooks.clear();
   }
 }

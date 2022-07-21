@@ -1,19 +1,20 @@
-import { Component, Injectable, IComponentConstructor } from '@loong-js/component';
+import { Injectable } from '@loong-js/core';
+import { Module, ModuleConstructor } from '../annotations/module';
 
 describe('Injectable', () => {
   test('Using injected services', () => {
     @Injectable()
     class Service {}
 
-    @Component({
+    @Module({
       providers: [Service],
     })
-    class TestComponent {
+    class TestModule {
       constructor(public service: Service) {}
     }
 
-    const component = (TestComponent as IComponentConstructor).createComponent?.();
+    const component = (TestModule as ModuleConstructor).create?.();
 
-    expect(component?.getComponent().service).toBeInstanceOf(Service);
+    expect(component?.getModule().service).toBeInstanceOf(Service);
   });
 });

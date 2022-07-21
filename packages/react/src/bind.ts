@@ -6,13 +6,13 @@ import { observer } from './observer';
 
 export const bind = createBind({
   view: observer,
-  observable(target, options?: IObservableOptions) {
+  observable(target: any, options?: IObservableOptions) {
     return observable(target, {
       checkAction,
       ...options,
     });
   },
-  observe(observeFunction) {
+  observe<T = any>(observeFunction: (...args: any[]) => T) {
     const runner = observe(observeFunction);
 
     return () => {
