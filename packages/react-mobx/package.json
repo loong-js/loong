@@ -3,15 +3,10 @@
   "version": "1.1.0-alpha.16",
   "description": "> TODO: description",
   "types": "dist/index.d.ts",
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.js",
-  "exports": {
-    "import": "./dist/index.esm.js",
-    "require": "./dist/index.cjs.js",
-    "browser": "./dist/index.umd.js",
-    "default": "./dist/index.cjs.js"
-  },
+  "umd:main": "dist/index.umd.js",
+  "unpkg": "dist/index.umd.min.js",
   "files": [
     "dist"
   ],
