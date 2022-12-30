@@ -1,18 +1,30 @@
 import { isPlainObject } from '@loong-js/shared';
-import { IBasicProvider, IProviderConstructor, Provide, Provider } from './annotations/module';
+import {
+  IBasicProvider,
+  IProviderConstructor,
+  Provide,
+  ProvidedInType,
+  Provider,
+} from './annotations/module';
 import { injectableTargetMap } from './annotations/injectable';
 import { ModuleRegistryOptions } from './annotations/module';
 import { resetInitialProvider, setInitialProvider } from './initial-provider';
 import { setInitialProviderRegistry } from './initial-provider-registry';
 import { error } from './utils/error';
+import { providerToModuleRegistryMap } from './module-registry';
+import {
+  deletePlatformProvider,
+  getPlatformProvider,
+  setPlatformProvider,
+} from './platform-provider';
 
 // Prevent circular dependency.
-enum ProviderStatus {
+export enum ProviderStatus {
   INSTANTIATING,
   INSTANTIATED,
 }
 
-interface IProvider {
+export interface IProvider {
   status: ProviderStatus;
   basicProvider: IBasicProvider;
   instance?: any;
@@ -129,11 +141,13 @@ export class ProviderRegistry {
     );
     resetInitialProvider();
 
-    this.providerMap.set(provide, {
+    const instantiatedProvider: IProvider = {
       instance,
       basicProvider,
       status: ProviderStatus.INSTANTIATED,
-    });
+    };
+    this.providerMap.set(provide, instantiatedProvider);
+    setPlatformProvider(instantiatedProvider);
   }
 
   private registerProviders(providers: Provider[], instantiatingProvider?: IProviderConstructor) {
@@ -143,7 +157,11 @@ export class ProviderRegistry {
   }
 
   getProvider(provide: Provide) {
-    return this.providerMap.get(provide)?.instance || this.dependencyMap.get(provide)?.instance;
+    return (
+      this.providerMap.get(provide)?.instance ||
+      this.dependencyMap.get(provide)?.instance ||
+      getPlatformProvider(provide)
+    );
   }
 
   setProviderInstance(provider: IProviderConstructor, instance: any) {
@@ -183,5 +201,14 @@ export class ProviderRegistry {
       }
     });
     return dependencies;
+  }
+
+  destroy() {
+    this.providerMap.forEach((provider) => {
+      providerToModuleRegistryMap.delete(provider.instance);
+      if (provider.basicProvider.providedIn === ProvidedInType.PLATFORM) {
+        deletePlatformProvider(provider);
+      }
+    });
   }
 }

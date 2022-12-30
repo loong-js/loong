@@ -7,6 +7,7 @@ export {
   Hook,
   Module,
   forwardRef,
+  getPlatformProvider,
 } from '@loong-js/react-pure';
 export { Action } from './annotations/action';
 export { bind } from './bind';

@@ -103,9 +103,7 @@ export class ModuleRegistry {
 
   destroy() {
     this.moduleRegistries.forEach((moduleRegistry) => moduleRegistry.destroy());
-    this.providerRegistry
-      .getProviders()
-      .forEach((provider) => providerToModuleRegistryMap.delete(provider));
+    this.providerRegistry.destroy();
     this.watchers.destroy();
     this.hooks.destroy();
   }

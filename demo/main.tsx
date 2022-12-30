@@ -9,6 +9,7 @@ import {
   Hook,
   Action,
   forwardRef,
+  getPlatformProvider,
 } from '@loong-js/react';
 import { createRoot } from 'react-dom/client';
 
@@ -115,7 +116,13 @@ class Module1 {
 
 @Component({
   imports: [Module1],
-  providers: [Service, Service2],
+  providers: [
+    {
+      provide: Service,
+      providedIn: 'platform',
+    },
+    Service2,
+  ],
 })
 class AppCompnent {
   @Prop()
@@ -149,3 +156,9 @@ const App = binder<{ name?: string }>(({ $this }) => {
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(<App name="has value">test</App>);
+
+setTimeout(() => {
+  console.log('run1 >>>', getPlatformProvider(Service));
+  root.unmount();
+  console.log('run2 >>>', getPlatformProvider(Service));
+}, 5000);

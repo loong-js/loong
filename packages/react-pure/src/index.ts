@@ -1,4 +1,12 @@
-export { Watch, Injectable, Autowired, forwardRef, Module, Hook } from '@loong-js/core';
+export {
+  Watch,
+  Injectable,
+  Autowired,
+  Module,
+  Hook,
+  forwardRef,
+  getPlatformProvider,
+} from '@loong-js/core';
 export { Component, Prop } from '@loong-js/component';
 export { createBind, bind } from './bind';
 export type { ComponentConstructor } from '@loong-js/component';

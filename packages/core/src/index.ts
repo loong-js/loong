@@ -6,6 +6,7 @@ export { Autowired } from './annotations/autowired';
 export { Watch } from './annotations/watch';
 export { Hook } from './annotations/hook';
 export { forwardRef } from './forward-ref';
+export { getPlatformProvider } from './platform-provider';
 export { ModuleRegistry, providerToModuleRegistryMap } from './module-registry';
 export type {
   IModuleOptions,

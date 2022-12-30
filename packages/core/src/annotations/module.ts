@@ -6,6 +6,7 @@ export interface IProviderConstructor extends Function {
 }
 
 export enum ProvidedInType {
+  PLATFORM = 'platform',
   ROOT = 'root',
   SELF = 'self',
 }
