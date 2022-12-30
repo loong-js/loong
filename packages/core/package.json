@@ -1,6 +1,6 @@
 {
   "name": "@loong-js/core",
-  "version": "1.1.0-alpha.16",
+  "version": "1.1.0-alpha.17",
   "description": "> TODO: description",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@loong-js/shared": "^1.1.0-alpha.16",
+    "@loong-js/shared": "^1.1.0-alpha.17",
     "reflect-metadata": "^0.1.13"
   }
 }

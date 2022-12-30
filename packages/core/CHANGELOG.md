@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.17](https://github.com/loong-js/loong/compare/v1.1.0-alpha.16...v1.1.0-alpha.17) (2022-12-30)
+
+
+### Bug Fixes
+
+* **all:** optimization package export ([92adb81](https://github.com/loong-js/loong/commit/92adb81a828bca31a12b82dbdc7458e08ce1cf75))
+
+
+### Features
+
+* **core:** add ProvidedInType enum type ([0ab9155](https://github.com/loong-js/loong/commit/0ab91555429935e6f45ddf3397a836c94ff0ddc4))
+* **demo:** add module demo ([f5d88f3](https://github.com/loong-js/loong/commit/f5d88f3acd2586242a7cf2b1343e942e05aca185))
+
+
+
+
+
 # [1.1.0-alpha.16](https://github.com/loong-js/loong/compare/v1.1.0-alpha.12...v1.1.0-alpha.16) (2022-07-15)
 
 
