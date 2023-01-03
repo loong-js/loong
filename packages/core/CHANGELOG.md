@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.19](https://github.com/loong-js/loong/compare/v1.1.0-alpha.18...v1.1.0-alpha.19) (2023-01-03)
+
+
+### Bug Fixes
+
+* **@loong-js/core:** fix provider-registry.ts not judge providedIn type ([e840cd5](https://github.com/loong-js/loong/commit/e840cd55f75900d36dcd00f2123ec05529d4d79c))
+
+
+
+
+
 # [1.1.0-alpha.18](https://github.com/loong-js/loong/compare/v1.1.0-alpha.17...v1.1.0-alpha.18) (2022-12-30)
 
 
