@@ -147,7 +147,9 @@ export class ProviderRegistry {
       status: ProviderStatus.INSTANTIATED,
     };
     this.providerMap.set(provide, instantiatedProvider);
-    setPlatformProvider(instantiatedProvider);
+    if (basicProvider.providedIn === ProvidedInType.PLATFORM) {
+      setPlatformProvider(instantiatedProvider);
+    }
   }
 
   private registerProviders(providers: Provider[], instantiatingProvider?: IProviderConstructor) {
