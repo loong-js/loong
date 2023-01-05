@@ -8,11 +8,17 @@ export function Prop(propName?: string): PropertyDecorator {
 
     return {
       get(this: any) {
+        providerToComponentRegistryMap.get(this)?.watchers.getWatcher()?.checkNeedObservedProps();
+
         let result: any;
-        if (!providerToComponentRegistryMap.has(this)) {
+        if (
+          !providerToComponentRegistryMap.has(this) ||
+          // When initializing the watch, you may get the props.
+          // At this time, the props have not been initialized.
+          !providerToComponentRegistryMap.get(this)?.props
+        ) {
           result = getInitialProps()?.[propertyKey];
         } else {
-          providerToComponentRegistryMap.get(this)?.watchers.getWatcher()?.checkNeedObservedProps();
           result = providerToComponentRegistryMap.get(this)?.props.getProp(propertyKey);
         }
         if (typeof result === 'undefined') {

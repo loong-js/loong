@@ -136,6 +136,11 @@ class AppCompnent {
   setup() {
     console.log('run');
   }
+
+  @Watch('name')
+  watchName() {
+    console.log('run watchName');
+  }
 }
 
 const binder = bind(AppCompnent);
