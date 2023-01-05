@@ -15,6 +15,8 @@ export const providerToModuleRegistryMap = new WeakMap<any, ModuleRegistry>();
 const INITIALIZE_IMPORT_MODULE_OPTIONAL_OPTION_NAMES: string[] = ['observe', 'initialProps'];
 
 export class ModuleRegistry {
+  private moduleInstance?: any;
+
   protected moduleRegistries: ModuleRegistry[] = [];
 
   providerRegistry: ProviderRegistry;
@@ -50,11 +52,13 @@ export class ModuleRegistry {
         }
       });
     });
+    this.moduleInstance = this.getModule();
+
     const providers = this.providerRegistry.getProviders();
     providers.forEach((provider) => providerToModuleRegistryMap.set(provider, this));
 
     if (options.observable) {
-      this.providerRegistry.setProviderInstance(module, options.observable(this.getModule()));
+      this.providerRegistry.setProviderInstance(module, options.observable(this.moduleInstance));
     }
 
     this.hooks = new Hooks(providers);
@@ -104,6 +108,7 @@ export class ModuleRegistry {
   destroy() {
     this.moduleRegistries.forEach((moduleRegistry) => moduleRegistry.destroy());
     this.providerRegistry.destroy();
+    providerToModuleRegistryMap.delete(this.moduleInstance);
     this.watchers.destroy();
     this.hooks.destroy();
   }
