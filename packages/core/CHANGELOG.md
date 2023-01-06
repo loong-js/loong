@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.21](https://github.com/loong-js/loong/compare/v1.1.0-alpha.20...v1.1.0-alpha.21) (2023-01-06)
+
+
+### Bug Fixes
+
+* **@loong-js/core:** fix second not change data ([575467a](https://github.com/loong-js/loong/commit/575467af3b5db1dc4118b686bec0847a214215b6))
+
+
+
+
+
 # [1.1.0-alpha.20](https://github.com/loong-js/loong/compare/v1.1.0-alpha.19...v1.1.0-alpha.20) (2023-01-05)
 
 
