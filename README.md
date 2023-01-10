@@ -327,7 +327,10 @@ class AppCompnent {
   }
 }
 ```
-
+## 本地开发
+```bash
+yarn dev
+```
 
 ## 🐛 Issues
 
