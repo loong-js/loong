@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.22](https://github.com/loong-js/loong/compare/v1.1.0-alpha.21...v1.1.0-alpha.22) (2023-01-10)
+
+
+### Bug Fixes
+
+* **@loong-js/core:** fix module-registry moduleInstance not destroy ([1eb2c65](https://github.com/loong-js/loong/commit/1eb2c653474a3312ff225adfe2b472662eb595bd))
+
+
+
+
+
 # [1.1.0-alpha.21](https://github.com/loong-js/loong/compare/v1.1.0-alpha.20...v1.1.0-alpha.21) (2023-01-06)
 
 
