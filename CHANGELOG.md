@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.23](https://github.com/loong-js/loong/compare/v1.1.0-alpha.22...v1.1.0-alpha.23) (2023-01-30)
+
+
+### Bug Fixes
+
+* fix prop not watch ([8f00c78](https://github.com/loong-js/loong/commit/8f00c78c3ddb3c5fcd9d501c91e812372901659c))
+
+
+
+
+
 # [1.1.0-alpha.22](https://github.com/loong-js/loong/compare/v1.1.0-alpha.21...v1.1.0-alpha.22) (2023-01-10)
 
 
