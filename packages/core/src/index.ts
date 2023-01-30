@@ -1,18 +1,19 @@
 import 'reflect-metadata';
 
-export { Module } from './annotations/module';
-export { Injectable } from './annotations/injectable';
 export { Autowired } from './annotations/autowired';
-export { Watch } from './annotations/watch';
 export { Hook } from './annotations/hook';
-export { forwardRef } from './forward-ref';
-export { getPlatformProvider } from './platform-provider';
-export { ModuleRegistry, providerToModuleRegistryMap } from './module-registry';
+export { Injectable } from './annotations/injectable';
+export { Module } from './annotations/module';
 export type {
-  IModuleOptions,
   ICreateModuleOptions,
-  IProviderConstructor,
   IModuleConstructor,
+  IModuleOptions,
+  IProviderConstructor,
   ModuleObservable,
   ModuleObserve,
 } from './annotations/module';
+export { targetToWatchNameAndKeys, Watch } from './annotations/watch';
+export { forwardRef } from './forward-ref';
+export { ModuleRegistry, providerToModuleRegistryMap } from './module-registry';
+export { getPlatformProvider } from './platform-provider';
+

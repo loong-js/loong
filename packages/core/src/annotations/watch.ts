@@ -1,5 +1,5 @@
-import { error } from '../utils/error';
 import { IProviderConstructor } from '../';
+import { error } from '../utils/error';
 
 export interface IWatchParameters {
   predicate?: Predicate;
@@ -15,8 +15,8 @@ export type Predicate<T = any> = ($this: T) => boolean | (keyof T)[];
 
 export function Watch(predicate: Predicate): MethodDecorator;
 export function Watch(name: string, ...names: string[]): MethodDecorator;
-export function Watch(predicateOrNames: Predicate | string, ...names: string[]): MethodDecorator {
-  if (!predicateOrNames) {
+export function Watch(predicateOrName: Predicate | string, ...names: string[]): MethodDecorator {
+  if (!predicateOrName) {
     error('Watch must accept a parameter');
   }
 
@@ -25,10 +25,10 @@ export function Watch(predicateOrNames: Predicate | string, ...names: string[]):
       targetToWatchNameAndKeys.set(target.constructor, []);
     }
     const parameters: IWatchParameters = {};
-    if (typeof predicateOrNames === 'function') {
-      parameters.predicate = predicateOrNames;
+    if (typeof predicateOrName === 'function') {
+      parameters.predicate = predicateOrName;
     } else {
-      parameters.names = [predicateOrNames, ...names];
+      parameters.names = [predicateOrName, ...names];
     }
     targetToWatchNameAndKeys.get(target.constructor)?.push([propertyKey, parameters]);
 

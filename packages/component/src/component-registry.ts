@@ -1,7 +1,7 @@
-import { ModuleRegistry, providerToModuleRegistryMap, IProviderConstructor } from '@loong-js/core';
+import { IProviderConstructor, ModuleRegistry, providerToModuleRegistryMap } from '@loong-js/core';
+import { ComponentRegistryOptions } from './annotations/component';
 import { resetInitialProps, setInitialProps } from './initial-props';
 import { Props } from './props';
-import { ComponentRegistryOptions } from './annotations/component';
 
 export const providerToComponentRegistryMap = providerToModuleRegistryMap as Map<
   any,

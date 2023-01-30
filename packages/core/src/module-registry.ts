@@ -1,14 +1,14 @@
-import { hasBasicProvider, ProviderRegistry } from './provider-registry';
 import {
   IProviderConstructor,
   ModuleRegistryOptions,
   MODULE_TARGET_TYPE,
   ProvidedInType,
-  Providers,
+  Providers
 } from './annotations/module';
 import { Hooks } from './hooks';
-import { Watchers } from './watchers';
+import { hasBasicProvider, ProviderRegistry } from './provider-registry';
 import { error } from './utils/error';
+import { Watchers } from './watchers';
 
 export const providerToModuleRegistryMap = new WeakMap<any, ModuleRegistry>();
 

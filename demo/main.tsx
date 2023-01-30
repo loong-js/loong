@@ -1,159 +1,55 @@
-import {
-  bind,
-  Component,
-  Module,
-  Injectable,
-  Prop,
-  Watch,
-  Autowired,
-  Hook,
-  Action,
-  forwardRef,
-  getPlatformProvider,
-} from '@loong-js/react';
+import { bind, Component, Injectable, Prop, Watch } from '@loong-js/react';
+import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+@Component()
+class AppCompnent {}
+
+const binder = bind(AppCompnent);
 
 @Injectable()
 class Service {
-  // @Priority(PriorityType.CONTINUOUS)
-  count = 0;
+  @Prop()
+  count?: number;
 
-  // @Priority(PriorityType.SYNCHRONOUS)
-  count2 = 0;
+  @Prop('count')
+  countAlias?: number;
 
-  // @Priority(PriorityType.IDLE)
-  count3 = 0;
-
-  @Autowired()
-  service2 = forwardRef(() => Service2);
-
-  constructor() {
-    console.log(this.service2);
-  }
+  @Prop()
+  increase?: () => void;
 
   @Watch('count')
-  change() {
-    console.log('watch', this.count);
-  }
-
-  @Action()
-  async increase() {
-    console.log('this.service2', this.service2);
-    this.count++;
-    this.count2 += 2;
-    console.log('commit');
-
-    await new Promise((resolve) => {
-      this.count++;
-      this.count2 += 2;
-      console.log('commit in promise');
-      setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    });
-
-    this.count++;
-    this.count2 += 2;
-    console.log('commit after promise');
-  }
-
-  @Action()
-  decrease() {
-    this.count--;
-  }
-}
-
-@Injectable()
-class Service2 {
-  @Autowired()
-  service!: Service;
-
-  // constructor() {
-  //   console.log(this.service);
-  // }
-
-  decrease() {
-    console.log('this.service', this.service);
-  }
-}
-
-@Injectable()
-class Service3 {
-  @Autowired()
-  service!: Service;
-
-  // constructor() {
-  //   console.log(this.service);
-  // }
-
-  decrease() {
-    console.log('this.service3', this.service);
-  }
-}
-
-@Module({
-  providers: [Service2],
-})
-class Module2 {}
-
-@Module({
-  imports: [Module2],
-  providers: [Service3],
-})
-class Module1 {
-  @Prop()
-  name = '22';
-
-  constructor(public service3: Service3) {
-    console.log('name', this.name);
-  }
-
-  @Hook()
-  setup() {
-    console.log('run Module1');
+  watchCount() {
+    console.log(this.count);
   }
 }
 
 @Component({
-  imports: [Module1],
-  providers: [
-    {
-      provide: Service,
-      providedIn: 'platform',
-    },
-    Service2,
-  ],
+  providers: [Service],
 })
-class AppCompnent {
-  @Prop()
-  name = 'test111';
-
-  constructor(public service: Service, public service2: Service2, public module1: Module1) {
-    console.log(this);
-  }
-
-  @Hook()
-  setup() {
-    console.log('run');
-  }
-
-  @Watch('name')
-  watchName() {
-    console.log('run watchName');
-  }
+class ChildComponent {
+  constructor(public service: Service) {}
 }
 
-const binder = bind(AppCompnent);
+const binder2 = bind(ChildComponent)<any>;
 
-const App = binder<{ name?: string }>(({ $this }) => {
-  console.log('render');
+const Child2 = binder2(({ $this }) => {
   return (
     <div>
-      <p>
-        Count = {$this.service.count} - {$this.service.count2}
-      </p>
-      <button onClick={() => $this.service.increase()}>Increase</button>
-      <button onClick={() => $this.service2.decrease()}>Decrease</button>
+      {$this.service.count}
+      <button onClick={$this.service.increase}>increase</button>
+    </div>
+  );
+});
+
+const Child = binder2(() => {
+  return <Child2 />;
+});
+
+const App = binder<{ name?: string }>(({ $this }) => {
+  const [count, setCount] = useState(1);
+  return (
+    <div>
+      <Child count={count} increase={() => setCount(count + 1)} />
     </div>
   );
 });
@@ -162,8 +58,8 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(<App name="has value">test</App>);
 
-setTimeout(() => {
-  console.log('run1 >>>', getPlatformProvider(Service));
-  root.unmount();
-  console.log('run2 >>>', getPlatformProvider(Service));
-}, 5000);
+// setTimeout(() => {
+//   console.log('run1 >>>', getPlatformProvider(Service));
+//   root.unmount();
+//   console.log('run2 >>>', getPlatformProvider(Service));
+// }, 5000);
