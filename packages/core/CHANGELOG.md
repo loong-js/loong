@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.24](https://github.com/loong-js/loong/compare/v1.1.0-alpha.23...v1.1.0-alpha.24) (2023-01-31)
+
+
+### Reverts
+
+* **@loong-js/component:** revert version 1.1.0-alpha.22 ([a331f2d](https://github.com/loong-js/loong/commit/a331f2d96cc85c8316ed35a8cba4582278b4269c))
+
+
+
+
+
 # [1.1.0-alpha.23](https://github.com/loong-js/loong/compare/v1.1.0-alpha.22...v1.1.0-alpha.23) (2023-01-30)
 
 
