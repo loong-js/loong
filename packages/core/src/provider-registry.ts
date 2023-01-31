@@ -1,22 +1,22 @@
 import { isPlainObject } from '@loong-js/shared';
+import { injectableTargetMap } from './annotations/injectable';
 import {
   IBasicProvider,
   IProviderConstructor,
+  ModuleRegistryOptions,
   Provide,
   ProvidedInType,
   Provider,
 } from './annotations/module';
-import { injectableTargetMap } from './annotations/injectable';
-import { ModuleRegistryOptions } from './annotations/module';
 import { resetInitialProvider, setInitialProvider } from './initial-provider';
 import { setInitialProviderRegistry } from './initial-provider-registry';
-import { error } from './utils/error';
 import { providerToModuleRegistryMap } from './module-registry';
 import {
   deletePlatformProvider,
   getPlatformProvider,
   setPlatformProvider,
 } from './platform-provider';
+import { error } from './utils/error';
 
 // Prevent circular dependency.
 export enum ProviderStatus {

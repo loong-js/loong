@@ -1,4 +1,6 @@
 import { bind, Component, Injectable, Prop, Watch } from '@loong-js/react';
+// import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 @Component()
@@ -9,6 +11,7 @@ const binder = bind(AppCompnent);
 @Injectable()
 class Service {
   @Prop()
+  // @observable
   count?: number;
 
   @Prop('count')
@@ -16,6 +19,13 @@ class Service {
 
   @Prop()
   increase?: () => void;
+
+  constructor() {
+    console.log('run >>>', this.count);
+    makeObservable(this, {
+      count: observable,
+    });
+  }
 
   @Watch('count')
   watchCount() {
@@ -33,6 +43,7 @@ class ChildComponent {
 const binder2 = bind(ChildComponent)<any>;
 
 const Child2 = binder2(({ $this }) => {
+  console.log($this.service.count);
   return (
     <div>
       {$this.service.count}
@@ -50,6 +61,7 @@ const App = binder<{ name?: string }>(({ $this }) => {
   return (
     <div>
       <Child count={count} increase={() => setCount(count + 1)} />
+      <Child count={count + 1} increase={() => setCount(count - 1)} />
     </div>
   );
 });
