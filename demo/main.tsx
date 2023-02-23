@@ -1,6 +1,5 @@
-import { bind, Component, Injectable, Prop, Watch } from '@loong-js/react';
-// import { observable } from 'mobx';
-import { makeObservable, observable } from 'mobx';
+import { bind, Component, Hook, Injectable, Prop } from '@loong-js/react';
+import { action, observable } from 'mobx';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 @Component()
@@ -10,26 +9,30 @@ const binder = bind(AppCompnent);
 
 @Injectable()
 class Service {
-  @Prop()
-  // @observable
-  count?: number;
+  // @Prop()
+  @observable
+  count = 0;
 
   @Prop('count')
   countAlias?: number;
 
-  @Prop()
-  increase?: () => void;
-
   constructor() {
-    console.log('run >>>', this.count);
-    makeObservable(this, {
-      count: observable,
-    });
+    console.log('run >>>', this.countAlias);
   }
 
-  @Watch('count')
-  watchCount() {
-    console.log(this.count);
+  @action.bound
+  increase() {
+    this.count += 1;
+  }
+
+  @Hook()
+  mounted() {
+    console.log('run >>> mounted');
+  }
+
+  @Hook()
+  unmount() {
+    console.log('run >>> unmount');
   }
 }
 
@@ -57,11 +60,12 @@ const Child = binder2(() => {
 });
 
 const App = binder<{ name?: string }>(({ $this }) => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   return (
     <div>
-      <Child count={count} increase={() => setCount(count + 1)} />
-      <Child count={count + 1} increase={() => setCount(count - 1)} />
+      [当前 count]: {count} <button onClick={() => setCount(count + 1)}>变动</button>
+      <br />
+      {count % 2 === 0 && <Child count={count} />}
     </div>
   );
 });

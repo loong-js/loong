@@ -1,4 +1,3 @@
-import type { ModuleObservable, ModuleObserve, ComponentConstructor } from '.';
 import {
   createElement,
   forwardRef,
@@ -12,7 +11,9 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useState,
 } from 'react';
+import type { ComponentConstructor, ModuleObservable, ModuleObserve } from '.';
 import { BindContext } from './context';
 
 export type PropsWith$This<T extends ComponentConstructor, P = Record<string, never>> = {
@@ -106,31 +107,39 @@ export function createBind(options?: ICreateBindOptions) {
           } as PropsWithChildren<PropsWith$This<T, P>>);
         }
 
-        const component = useMemo(
-          () =>
-            (Component as Required<ComponentConstructor>).create({
-              initialProps: props,
-              observe: options?.observe,
-              observable: options?.observable,
-              dependencies: context.dependencies,
-            }),
-          []
-        );
-        const dependencies = useMemo(() => component.providerRegistry.getDependencies(), []);
-        const $this = useMemo(() => component.getComponent(), []);
+        const [component, setComponent] =
+          useState<ReturnType<Required<ComponentConstructor>['create']>>();
+        const dependencies = useMemo(
+          () => component?.providerRegistry.getDependencies(),
+          [component]
+        ) as any[];
+        const $this = useMemo(() => component?.getComponent(), [component]);
 
-        component.props.setProps(props);
-        component.hooks.invokeHook('setup');
+        component?.props.setProps(props);
+        component?.hooks.invokeHook('setup');
 
         useEffect(() => {
-          component.hooks.invokeHook('mounted');
+          const componentRegistry = (Component as Required<ComponentConstructor>).create({
+            initialProps: props,
+            observe: options?.observe,
+            observable: options?.observable,
+            dependencies: context.dependencies,
+          });
+          setComponent(componentRegistry);
+        }, []);
+
+        useEffect(() => {
+          component?.hooks.invokeHook('mounted');
 
           return () => {
-            component.hooks.invokeHook('unmount');
-            component.destroy();
+            component?.hooks.invokeHook('unmount');
+            component?.destroy();
           };
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
+        }, [component]);
+
+        if (!component) {
+          return null;
+        }
 
         return createElement(
           BindContext.Provider,
