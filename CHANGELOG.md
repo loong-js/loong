@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.25](https://github.com/loong-js/loong/compare/v1.1.0-alpha.24...v1.1.0-alpha.25) (2023-02-23)
+
+
+### Bug Fixes
+
+* **@loong-js/react-pure:** fix bind component change to use useState ([f32390e](https://github.com/loong-js/loong/commit/f32390e5d4872b17f1a595e270d0634eca5bb87f))
+
+
+
+
+
 # [1.1.0-alpha.24](https://github.com/loong-js/loong/compare/v1.1.0-alpha.23...v1.1.0-alpha.24) (2023-01-31)
 
 
