@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.26](https://github.com/loong-js/loong/compare/v1.1.0-alpha.24...v1.1.0-alpha.26) (2023-04-26)
+
+
+### Bug Fixes
+
+* **@loong-js/react-pure:** fix bind component change to use useState ([f32390e](https://github.com/loong-js/loong/commit/f32390e5d4872b17f1a595e270d0634eca5bb87f))
+* **packages/core/src/annotations/autowired.ts:** 去掉缓存 ([a338f38](https://github.com/loong-js/loong/commit/a338f385a2747ce171ed129e41fdfcd186bf0881))
+
+
+
+
+
 # [1.1.0-alpha.25](https://github.com/loong-js/loong/compare/v1.1.0-alpha.24...v1.1.0-alpha.25) (2023-02-23)
 
 

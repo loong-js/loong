@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.26](https://github.com/loong-js/loong/compare/v1.1.0-alpha.24...v1.1.0-alpha.26) (2023-04-26)
+
+
+### Bug Fixes
+
+* **packages/core/src/annotations/autowired.ts:** 去掉缓存 ([a338f38](https://github.com/loong-js/loong/commit/a338f385a2747ce171ed129e41fdfcd186bf0881))
+
+
+
+
+
 # [1.1.0-alpha.25](https://github.com/loong-js/loong/compare/v1.1.0-alpha.24...v1.1.0-alpha.25) (2023-02-23)
 
 **Note:** Version bump only for package @loong-js/react-mobx
