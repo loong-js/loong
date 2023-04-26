@@ -79,7 +79,6 @@ class Watcher {
   }
 
   private watch = () => {
-    const effect = this.effect.bind(this.provider);
     const { predicate, names } = this.parameters;
     if (predicate) {
       const result = this.wrapper(() => predicate?.(this.provider));
@@ -87,12 +86,12 @@ class Watcher {
         (Array.isArray(result) && this.checkDependencyList(result)) ||
         (typeof result === 'boolean' && result)
       ) {
-        effect();
+        this.effect.call(this.provider);
       }
     } else if (names) {
       const currentDependencyList = this.wrapper(() => names.map((name) => this.provider[name]));
       if (this.checkDependencyList(currentDependencyList)) {
-        effect();
+        this.effect.call(this.provider);
       }
     }
   };
