@@ -1,19 +1,31 @@
 import { ModuleObserve } from './';
 import { IWatchParameters, targetToWatchNameAndKeys } from './annotations/watch';
+import { ProviderRegistry } from './provider-registry';
 
 export class Watchers {
   private watchers: Watcher[] = [];
 
   private watcher: Watcher | null = null;
 
-  constructor(private providers: any[], private observe?: ModuleObserve) {}
+  constructor(private providerRegistry: ProviderRegistry, private observe?: ModuleObserve) {}
 
   createWatchers() {
     const observe = this.observe;
     if (observe) {
-      this.providers.forEach((provider) => {
+      this.providerRegistry.getProviders().forEach((provider) => {
         targetToWatchNameAndKeys.get(provider.constructor)?.forEach(([key, parameters]) => {
-          this.watchers.push(new Watcher(this, provider, provider[key], parameters, observe));
+          this.watchers.push(
+            new Watcher(
+              this,
+              () => this.providerRegistry.getProvider(provider.constructor),
+              () =>
+                this.providerRegistry
+                  .getProvider(provider.constructor)
+                  ?.[key]?.call(this.providerRegistry.getProvider(provider.constructor)),
+              parameters,
+              observe
+            )
+          );
         });
       });
     }
@@ -51,7 +63,7 @@ class Watcher {
 
   constructor(
     private watchers: Watchers,
-    private provider: any,
+    private getProvider: () => any,
     private effect: () => void,
     private parameters: IWatchParameters,
     private observe: ModuleObserve
@@ -80,18 +92,19 @@ class Watcher {
 
   private watch = () => {
     const { predicate, names } = this.parameters;
+    const provider = this.getProvider();
     if (predicate) {
-      const result = this.wrapper(() => predicate?.(this.provider));
+      const result = this.wrapper(() => predicate?.(provider));
       if (
         (Array.isArray(result) && this.checkDependencyList(result)) ||
         (typeof result === 'boolean' && result)
       ) {
-        this.effect.call(this.provider);
+        this.effect();
       }
     } else if (names) {
-      const currentDependencyList = this.wrapper(() => names.map((name) => this.provider[name]));
+      const currentDependencyList = this.wrapper(() => names.map((name) => provider[name]));
       if (this.checkDependencyList(currentDependencyList)) {
-        this.effect.call(this.provider);
+        this.effect();
       }
     }
   };

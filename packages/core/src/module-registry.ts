@@ -62,7 +62,7 @@ export class ModuleRegistry {
     }
 
     this.hooks = new Hooks(providers);
-    this.watchers = new Watchers(providers, options.observe);
+    this.watchers = new Watchers(this.providerRegistry, options.observe);
     this.watchers.createWatchers();
   }
 

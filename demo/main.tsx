@@ -1,4 +1,4 @@
-import { bind, Component, Hook, Injectable, Prop } from '@loong-js/react';
+import { bind, Component, Hook, Injectable, Prop, Watch } from '@loong-js/react-mobx';
 import { action, observable } from 'mobx';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -23,6 +23,11 @@ class Service {
   @action.bound
   increase() {
     this.count += 1;
+  }
+
+  @Watch('count')
+  watch() {
+    console.log('run watch >>>', this.count);
   }
 
   @Hook()
