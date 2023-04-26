@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.28](https://github.com/loong-js/loong/compare/v1.1.0-alpha.27...v1.1.0-alpha.28) (2023-04-26)
+
+**Note:** Version bump only for package @loong-js/react
+
+
+
+
+
 # [1.1.0-alpha.27](https://github.com/loong-js/loong/compare/v1.1.0-alpha.26...v1.1.0-alpha.27) (2023-04-26)
 
 **Note:** Version bump only for package @loong-js/react

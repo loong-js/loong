@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.28](https://github.com/loong-js/loong/compare/v1.1.0-alpha.27...v1.1.0-alpha.28) (2023-04-26)
+
+
+### Bug Fixes
+
+* **packages/core/src/watchers.ts:** fix watch getProvider ([8c2bc1b](https://github.com/loong-js/loong/commit/8c2bc1b8a22639f54699c7df62c20a0dd3a07ac4))
+
+
+
+
+
 # [1.1.0-alpha.27](https://github.com/loong-js/loong/compare/v1.1.0-alpha.26...v1.1.0-alpha.27) (2023-04-26)
 
 
