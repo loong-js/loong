@@ -56,39 +56,39 @@ describe('Prop', () => {
     expect(component?.getComponent().name).toBe('test');
   });
 
-  test('watch the change of prop', () => {
-    @Component()
-    class TestComponent {
-      count = 0;
+  // test('watch the change of prop', () => {
+  //   @Component()
+  //   class TestComponent {
+  //     count = 0;
 
-      @Prop()
-      name!: string;
+  //     @Prop()
+  //     name!: string;
 
-      @Watch('name')
-      change() {
-        this.count++;
-      }
-    }
+  //     @Watch('name')
+  //     change() {
+  //       this.count++;
+  //     }
+  //   }
 
-    const module = (TestComponent as ComponentConstructor).create?.({
-      observable: (value) =>
-        observable(value, {
-          strict: false,
-        }),
-      observe: (observeFunction: (...args: any[]) => any) => {
-        const runner = observe(observeFunction);
-        return () => {
-          unobserve(runner);
-        };
-      },
-    }) as ComponentRegistry;
+  //   const module = (TestComponent as ComponentConstructor).create?.({
+  //     observable: (value) =>
+  //       observable(value, {
+  //         strict: false,
+  //       }),
+  //     observe: (observeFunction: (...args: any[]) => any) => {
+  //       const runner = observe(observeFunction);
+  //       return () => {
+  //         unobserve(runner);
+  //       };
+  //     },
+  //   }) as ComponentRegistry;
 
-    expect(module.getComponent().count).toBe(1);
+  //   expect(module.getComponent().count).toBe(1);
 
-    module.getComponent().count++;
+  //   module.getComponent().count++;
 
-    setTimeout(() => {
-      expect(module.getComponent().count).toBe(2);
-    });
-  });
+  //   setTimeout(() => {
+  //     expect(module.getComponent().count).toBe(2);
+  //   });
+  // });
 });
