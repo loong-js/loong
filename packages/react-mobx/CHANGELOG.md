@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.41](https://github.com/loong-js/loong/compare/v1.1.0-alpha.28...v1.1.0-alpha.41) (2023-04-26)
+
+
+### Bug Fixes
+
+* **packages/core/src/watchers.ts:** fix watch getProvider ([b931550](https://github.com/loong-js/loong/commit/b931550805ecb124e744bf3671d9b39a24d79b08))
+
+
+
+
+
 # [1.1.0-alpha.28](https://github.com/loong-js/loong/compare/v1.1.0-alpha.27...v1.1.0-alpha.28) (2023-04-26)
 
 **Note:** Version bump only for package @loong-js/react-mobx
