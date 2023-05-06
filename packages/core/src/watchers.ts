@@ -18,13 +18,10 @@ export class Watchers {
             new Watcher(
               this,
               () => this.providerRegistry.getProvider(provider.constructor),
-              () => {
-                setTimeout(() =>
-                  this.providerRegistry
-                    .getProvider(provider.constructor)
-                    ?.[key]?.call(this.providerRegistry.getProvider(provider.constructor))
-                );
-              },
+              () =>
+                this.providerRegistry
+                  .getProvider(provider.constructor)
+                  ?.[key]?.call(this.providerRegistry.getProvider(provider.constructor)),
               parameters,
               observe
             )
