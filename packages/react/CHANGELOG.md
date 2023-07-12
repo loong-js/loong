@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.44](https://github.com/loong-js/loong/compare/v1.1.0-alpha.42...v1.1.0-alpha.44) (2023-07-12)
+
+
+### Bug Fixes
+
+* **@loong/core:** fix checkAction not transfer ([3850ebc](https://github.com/loong-js/loong/commit/3850ebc6ce947e3012408a3f7617ce6563bc783d))
+
+
+
+
+
 # [1.1.0-alpha.42](https://github.com/loong-js/loong/compare/v1.1.0-alpha.41...v1.1.0-alpha.42) (2023-04-26)
 
 **Note:** Version bump only for package @loong-js/react
