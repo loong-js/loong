@@ -1,8 +1,12 @@
 import { Watch } from '@loong-js/core';
-import { observable, observe, unobserve } from '@loong-js/observer';
+import { observable, observe, unobserve, setConfig } from '@loong-js/observer';
 import { Component, Prop } from '..';
 import { ComponentConstructor } from '../annotations/component';
 import { ComponentRegistry } from '../component-registry';
+
+setConfig({
+  strict: false,
+});
 
 @Component()
 class TestComponent {
@@ -71,10 +75,7 @@ describe('Prop', () => {
     }
 
     const module = (TestComponent as ComponentConstructor).create?.({
-      observable: (value) =>
-        observable(value, {
-          strict: false,
-        }),
+      observable,
       observe: (observeFunction: (...args: any[]) => any) => {
         const runner = observe(observeFunction);
         return () => {

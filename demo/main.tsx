@@ -1,5 +1,4 @@
-import { bind, Component, Hook, Injectable, Prop, Watch } from '@loong-js/react-mobx';
-import { action, observable } from 'mobx';
+import { Action, bind, Component, Hook, Injectable, Prop, Watch } from '@loong-js/react';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 @Component()
@@ -10,7 +9,6 @@ const binder = bind(AppCompnent);
 @Injectable()
 class Service {
   // @Prop()
-  @observable
   count = 0;
 
   @Prop('count')
@@ -20,7 +18,7 @@ class Service {
     console.log('run >>>', this.countAlias);
   }
 
-  @action.bound
+  @Action()
   increase() {
     this.count += 1;
   }

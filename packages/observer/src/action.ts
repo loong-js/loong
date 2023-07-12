@@ -1,5 +1,6 @@
 import { endBatch, startBatch } from './batch-updates';
-import { ACTIONS, OPTIONS } from './constants/key-cache';
+import { config } from './config';
+import { ACTIONS } from './constants/key-cache';
 import { rawToProxyMap } from './observable';
 import { disableAllowStateUpdates, enableAllowStateUpdates } from './state-updates';
 import { getKeyCache, setKeyCache } from './utils/key-cache';
@@ -11,16 +12,14 @@ export function createAction(target: object, key: unknown, action: GeneratorFunc
     return result;
   }
 
-  const autoBind = getKeyCache<boolean>(target, OPTIONS, 'autoBind');
-  const strict = getKeyCache<boolean>(target, OPTIONS, 'strict');
   let scope: any;
 
-  if (autoBind !== false) {
+  if (config.autoBind !== false) {
     const proxy = rawToProxyMap.get(target);
     scope = proxy;
   }
   function internalAction(...args: any[]) {
-    return executeAction(action, scope, strict !== false, ...args);
+    return executeAction(action, scope, config.strict !== false, ...args);
   }
 
   setKeyCache(target, key, {

@@ -1,8 +1,12 @@
 import { Injectable } from '@loong-js/core';
-import { observable, observe, unobserve } from '@loong-js/observer';
+import { observable, observe, unobserve, setConfig } from '@loong-js/observer';
 import { Module, ModuleConstructor } from '../annotations/module';
 import { Watch } from '../annotations/watch';
 import { ModuleRegistry } from '../module-registry';
+
+setConfig({
+  strict: false,
+});
 
 describe('Watch', () => {
   test('pass in the property name string of the current class (module or service)', () => {
@@ -17,10 +21,7 @@ describe('Watch', () => {
     }
 
     const module = (TestModule as ModuleConstructor).create?.({
-      observable: (value) =>
-        observable(value, {
-          strict: false,
-        }),
+      observable,
       observe: (observeFunction: (...args: any[]) => any) => {
         const runner = observe(observeFunction);
         return () => {
@@ -52,10 +53,7 @@ describe('Watch', () => {
     }
 
     const module = (TestModule as ModuleConstructor).create?.({
-      observable: (value) =>
-        observable(value, {
-          strict: false,
-        }),
+      observable,
       observe: (observeFunction: (...args: any[]) => any) => {
         const runner = observe(observeFunction);
         return () => {
@@ -91,10 +89,7 @@ describe('Watch', () => {
     }
 
     const module = (TestModule as ModuleConstructor).create?.({
-      observable: (value) =>
-        observable(value, {
-          strict: false,
-        }),
+      observable,
       observe: (observeFunction: (...args: any[]) => any) => {
         const runner = observe(observeFunction);
         return () => {
@@ -131,10 +126,7 @@ describe('Watch', () => {
     }
 
     const module = (TestModule as ModuleConstructor).create?.({
-      observable: (value) =>
-        observable(value, {
-          strict: false,
-        }),
+      observable,
       observe: (observeFunction: (...args: any[]) => any) => {
         const runner = observe(observeFunction);
         return () => {

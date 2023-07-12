@@ -1,6 +1,6 @@
 {
   "name": "@loong-js/core",
-  "version": "1.1.0-alpha.42",
+  "version": "1.1.0-alpha.43",
   "description": "> TODO: description",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",

@@ -1,10 +1,11 @@
 import { error } from './utils/error';
 import { ITERATION_KEY } from './constants/iteration-key';
-import { EFFECTS, OPTIONS } from './constants/key-cache';
+import { EFFECTS } from './constants/key-cache';
 import { TrackOperationType, TriggerOperationType } from './constants/operation-type';
 import { hasAllowStateUpdates } from './state-updates';
 import { getKeyCache, setKeyCache } from './utils/key-cache';
 import { schedule } from './utils/schedule';
+import { config } from './config';
 
 export type Key = string | symbol;
 
@@ -116,7 +117,7 @@ export function trigger(target: object, type: TriggerOperationType, key?: unknow
 
   // If it is a strict mode and is not executed during the action,
   // the update is not allowed.
-  if (getKeyCache(target, OPTIONS, 'strict') === true && !hasAllowStateUpdates()) {
+  if (config.strict === true && !hasAllowStateUpdates()) {
     error('data can only be updated in action.');
   }
 

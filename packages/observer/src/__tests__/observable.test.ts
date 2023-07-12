@@ -1,4 +1,4 @@
-import { isObservable, observable, observe } from '..';
+import { isObservable, observable, observe, setConfig } from '..';
 
 describe('observable', () => {
   test('should throw an error when no argument is provided or an unqualified value is provided', () => {
@@ -91,20 +91,18 @@ describe('observable', () => {
   });
 
   test('should only use generator functions to update data when configured strict = true', () => {
-    const result = observable(
-      {
-        count: 1,
-        setCount() {
-          this.count = 2;
-        },
+    setConfig({
+      strict: true,
+      checkAction(result) {
+        return typeof result === 'function';
       },
-      {
-        strict: true,
-        checkAction(result) {
-          return typeof result === 'function';
-        },
-      }
-    );
+    });
+    const result = observable({
+      count: 1,
+      setCount() {
+        this.count = 2;
+      },
+    });
 
     observe(() => {
       console.log(result.count);
@@ -122,21 +120,19 @@ describe('observable', () => {
   });
 
   test('should automatically bind this in generator functions when strict = true and autoBind = true', () => {
-    const result = observable(
-      {
-        count: 1,
-        setCount() {
-          this.count = 2;
-        },
+    setConfig({
+      strict: true,
+      autoBind: true,
+      checkAction(result) {
+        return typeof result === 'function';
       },
-      {
-        strict: true,
-        autoBind: true,
-        checkAction(result) {
-          return typeof result === 'function';
-        },
-      }
-    );
+    });
+    const result = observable({
+      count: 1,
+      setCount() {
+        this.count = 2;
+      },
+    });
     const { setCount } = result;
 
     observe(() => {
