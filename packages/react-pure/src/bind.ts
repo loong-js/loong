@@ -21,8 +21,10 @@ export type PropsWith$This<T extends ComponentConstructor, P = Record<string, ne
 } & PropsWithChildren<P>;
 
 enum BinderMode {
+  // FIX: Can only take effect on the first binding.
   ALONE = 'alone',
   DEPENDENT = 'dependent',
+  FOUND = 'found',
 }
 
 export interface IBinderOptions {
@@ -105,6 +107,20 @@ export function createBind(options?: ICreateBindOptions) {
             $this: context.$this,
             ...restProps,
           } as PropsWithChildren<PropsWith$This<T, P>>);
+        }
+
+        if (binderOptions?.mode === BinderMode.FOUND) {
+          // Find from bottom to top.
+          const $this = context.dependencies.find(
+            (dependency) => dependency.basicProvider?.provide === Component
+          );
+
+          if ($this) {
+            return createElement(ReactComponent, {
+              $this: $this.instance,
+              ...restProps,
+            } as PropsWithChildren<PropsWith$This<T, P>>);
+          }
         }
 
         const [component, setComponent] =

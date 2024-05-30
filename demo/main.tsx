@@ -2,7 +2,14 @@ import { Action, bind, Component, Hook, Injectable, Prop, Watch } from '@loong-j
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 @Component()
-class AppCompnent {}
+class AppCompnent {
+  count = 3;
+
+  @Action()
+  add() {
+    this.count += 1;
+  }
+}
 
 const binder = bind(AppCompnent);
 
@@ -48,12 +55,28 @@ class ChildComponent {
 
 const binder2 = bind(ChildComponent)<any>;
 
+const Child3 = binder(
+  ({ $this }) => {
+    console.log($this);
+    return (
+      <div>
+        Child3
+        {$this.count}
+      </div>
+    );
+  },
+  {
+    mode: 'found',
+  }
+);
+
 const Child2 = binder2(({ $this }) => {
   console.log($this.service.count);
   return (
     <div>
       {$this.service.count}
       <button onClick={$this.service.increase}>increase</button>
+      <Child3 />
     </div>
   );
 });
@@ -66,7 +89,15 @@ const App = binder<{ name?: string }>(({ $this }) => {
   const [count, setCount] = useState(0);
   return (
     <div>
-      [当前 count]: {count} <button onClick={() => setCount(count + 1)}>变动</button>
+      [当前 count]: {count}{' '}
+      <button
+        onClick={() => {
+          setCount(count + 1);
+          $this.add();
+        }}
+      >
+        变动
+      </button>
       <br />
       {count % 2 === 0 && <Child count={count} />}
     </div>
