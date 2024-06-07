@@ -22,6 +22,7 @@ import { error } from './utils/error';
 export enum ProviderStatus {
   INSTANTIATING,
   INSTANTIATED,
+  UNINSTALLED,
 }
 
 export interface IProvider {
