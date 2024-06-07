@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.51](https://github.com/loong-js/loong/compare/v1.1.0-alpha.50...v1.1.0-alpha.51) (2024-06-07)
+
+
+### Bug Fixes
+
+* **autowired:** fix providerToModuleRegistryMap destroyed ([2a5a81d](https://github.com/loong-js/loong/commit/2a5a81dd4914f79b41689c076bccf7c030e123f0))
+
+
+
+
+
 # [1.1.0-alpha.50](https://github.com/loong-js/loong/compare/v1.1.0-alpha.49...v1.1.0-alpha.50) (2024-06-07)
 
 
