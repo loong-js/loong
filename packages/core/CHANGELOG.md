@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.46](https://github.com/loong-js/loong/compare/v1.1.0-alpha.45...v1.1.0-alpha.46) (2024-06-07)
+
+
+### Bug Fixes
+
+* **packages/core/src/platform-provider.ts:** if provider deleted, getPlatformProvider return void ([6340fce](https://github.com/loong-js/loong/commit/6340fcee6d85919b800c6948070170e35be32c3c))
+
+
+
+
+
 # [1.1.0-alpha.44](https://github.com/loong-js/loong/compare/v1.1.0-alpha.42...v1.1.0-alpha.44) (2023-07-12)
 
 
