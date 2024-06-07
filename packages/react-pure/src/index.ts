@@ -6,6 +6,7 @@ export {
   Hook,
   forwardRef,
   getPlatformProvider,
+  waitForPlatformProvider,
 } from '@loong-js/core';
 export { Component, Prop } from '@loong-js/component';
 export { createBind, bind } from './bind';

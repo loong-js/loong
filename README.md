@@ -139,9 +139,32 @@ const App2 = binder(App2FC);
 注解一个 UI 控制类，具体看 `bind` 的使用方式，`Component` 接受的 `options` 接口：
 
 ```typescript
-// IClassType 指的是服务类或者 UI 控制类
+export interface IProviderConstructor extends Function {
+  new (...args: any[]): any;
+}
+
+export enum ProvidedInType {
+  // 使用了这个类型，就可以被 getPlatformProvider 和 waitForPlatformProvider 获取到注册的实例
+  PLATFORM = 'platform',
+  ROOT = 'root',
+  SELF = 'self',
+}
+
+// It may be an abstract class, and the type is Function.
+export type Provide = IProviderConstructor | Function;
+
+export interface IBasicProvider {
+  provide: Provide;
+  providedIn?: Lowercase<keyof typeof ProvidedInType>;
+  useClass?: IProviderConstructor;
+}
+
+export type Provider = IBasicProvider | IProviderConstructor;
+
+export type Providers = Provider[];
+
 interface IComponentOptions {
-  providers: IClassType[];
+  providers: Providers;
 }
 ```
 
@@ -327,6 +350,15 @@ class AppCompnent {
   }
 }
 ```
+
+### `getPlatformProvider`
+
+获取注册服务的实例。
+
+### `waitForPlatformProvider`
+
+等待服务注册完成之后，再获取到实例，这个是异步获取的。
+
 ## 本地开发
 ```bash
 yarn dev

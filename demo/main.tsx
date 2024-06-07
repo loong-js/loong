@@ -1,4 +1,13 @@
-import { Action, bind, Component, Hook, Injectable, Prop, Watch } from '@loong-js/react';
+import {
+  Action,
+  bind,
+  Component,
+  Hook,
+  Injectable,
+  Prop,
+  waitForPlatformProvider,
+  Watch,
+} from '@loong-js/react';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 @Component()
@@ -47,7 +56,12 @@ class Service {
 }
 
 @Component({
-  providers: [Service],
+  providers: [
+    {
+      provide: Service,
+      providedIn: 'platform',
+    },
+  ],
 })
 class ChildComponent {
   constructor(public service: Service) {}
@@ -86,7 +100,7 @@ const Child = binder2(() => {
 });
 
 const App = binder<{ name?: string }>(({ $this }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   return (
     <div>
       [当前 count]: {count}{' '}
@@ -113,3 +127,9 @@ root.render(<App name="has value">test</App>);
 //   root.unmount();
 //   console.log('run2 >>>', getPlatformProvider(Service));
 // }, 5000);
+async function test() {
+  const service = await waitForPlatformProvider(Service);
+  console.log('test', service);
+}
+
+test();

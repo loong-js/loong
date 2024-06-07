@@ -15,4 +15,4 @@ export type {
 export { targetToWatchNameAndKeys, Watch } from './annotations/watch';
 export { forwardRef } from './forward-ref';
 export { ModuleRegistry, providerToModuleRegistryMap } from './module-registry';
-export { getPlatformProvider } from './platform-provider';
+export { getPlatformProvider, waitForPlatformProvider } from './platform-provider';
