@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.49](https://github.com/loong-js/loong/compare/v1.1.0-alpha.48...v1.1.0-alpha.49) (2024-06-07)
+
+**Note:** Version bump only for package @loong-js/component
+
+
+
+
+
 # [1.1.0-alpha.47](https://github.com/loong-js/loong/compare/v1.1.0-alpha.46...v1.1.0-alpha.47) (2024-06-07)
 
 **Note:** Version bump only for package @loong-js/component

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.49](https://github.com/loong-js/loong/compare/v1.1.0-alpha.48...v1.1.0-alpha.49) (2024-06-07)
+
+
+### Bug Fixes
+
+* **packages/core:** fix get destroyed providerRegistry ([dd54d7f](https://github.com/loong-js/loong/commit/dd54d7f9397be74d2f71d33205ba0488050657ce))
+
+
+
+
+
 # [1.1.0-alpha.48](https://github.com/loong-js/loong/compare/v1.1.0-alpha.47...v1.1.0-alpha.48) (2024-06-07)
 
 
