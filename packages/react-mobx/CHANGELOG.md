@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.48](https://github.com/loong-js/loong/compare/v1.1.0-alpha.47...v1.1.0-alpha.48) (2024-06-07)
+
+
+### Bug Fixes
+
+* **packages/react-mobx/src/index.ts:** export waitForPlatformProvider ([5cd08a9](https://github.com/loong-js/loong/commit/5cd08a9c5a12626d1999d6f3af72465983880501))
+
+
+
+
+
 # [1.1.0-alpha.47](https://github.com/loong-js/loong/compare/v1.1.0-alpha.46...v1.1.0-alpha.47) (2024-06-07)
 
 **Note:** Version bump only for package @loong-js/react-mobx
