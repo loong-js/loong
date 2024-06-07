@@ -47,6 +47,8 @@ export class ProviderRegistry {
 
   private dependencyMap = new Map<Provide, IProvider>();
 
+  destroyed = false;
+
   private get providers() {
     return this.options.providers || [];
   }
@@ -159,12 +161,32 @@ export class ProviderRegistry {
     });
   }
 
+  private getProviderInstance(provider?: IProvider) {
+    if (provider?.status === ProviderStatus.UNINSTALLED) {
+      throw new Error('provider status is uninstalled');
+    }
+    return provider?.instance;
+  }
+
   getProvider(provide: Provide) {
-    return (
-      this.providerMap.get(provide)?.instance ||
-      this.dependencyMap.get(provide)?.instance ||
-      getPlatformProvider(provide)
-    );
+    let instance: any;
+
+    try {
+      instance = this.getProviderInstance(this.providerMap.get(provide));
+      if (instance) {
+        return instance;
+      }
+    } catch {
+      return;
+    }
+
+    try {
+      instance = this.getProviderInstance(this.dependencyMap.get(provide));
+    } catch {
+      return;
+    }
+
+    return instance ?? getPlatformProvider(provide);
   }
 
   setProviderInstance(provider: IProviderConstructor, instance: any) {
@@ -208,10 +230,13 @@ export class ProviderRegistry {
 
   destroy() {
     this.providerMap.forEach((provider) => {
+      provider.status = ProviderStatus.UNINSTALLED;
       providerToModuleRegistryMap.delete(provider.instance);
+      delete provider.instance;
       if (provider.basicProvider.providedIn === ProvidedInType.PLATFORM) {
         deletePlatformProvider(provider);
       }
     });
+    this.destroyed = true;
   }
 }

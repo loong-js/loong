@@ -21,8 +21,6 @@ export function setPlatformProvider(provider: IProvider) {
 }
 
 export function deletePlatformProvider(provider: IProvider) {
-  provider.status = ProviderStatus.UNINSTALLED;
-  delete provider.instance;
   platformProviderMap.delete(provider.basicProvider.provide);
 }
 

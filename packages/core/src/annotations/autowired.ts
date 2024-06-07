@@ -2,6 +2,7 @@ import { resolveForwardRef } from '../forward-ref';
 import { getInitialProvider } from '../initial-provider';
 import { getInitialProviderRegistry } from '../initial-provider-registry';
 import { providerToModuleRegistryMap } from '../module-registry';
+import { ProviderRegistry } from '../provider-registry';
 
 export function Autowired(): PropertyDecorator {
   return ((target: object, propertyKey: string | symbol, descriptor: IBabelPropertyDescriptor) => {
@@ -12,11 +13,16 @@ export function Autowired(): PropertyDecorator {
       get(this: any) {
         const providerType = resolveForwardRef(defaultValue?.()) || type;
         const Provider = getInitialProvider();
-        const providerRegistry =
-          providerToModuleRegistryMap.get(this)?.providerRegistry || getInitialProviderRegistry();
+
+        let providerRegistry = providerToModuleRegistryMap.get(this)?.providerRegistry;
+        if (!providerRegistry || providerRegistry?.destroyed) {
+          providerRegistry = getInitialProviderRegistry() as ProviderRegistry;
+        }
+
         if (Provider) {
           providerRegistry?.registerProvider(providerType, Provider);
         }
+
         return providerRegistry?.getProvider(providerType);
       },
     };

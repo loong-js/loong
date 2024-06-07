@@ -25,6 +25,8 @@ export class ModuleRegistry {
 
   watchers: Watchers;
 
+  destroyed = false;
+
   constructor(private module: IProviderConstructor, private options: ModuleRegistryOptions) {
     this.initializeProviders();
 
@@ -111,5 +113,6 @@ export class ModuleRegistry {
     providerToModuleRegistryMap.delete(this.moduleInstance);
     this.watchers.destroy();
     this.hooks.destroy();
+    this.destroyed = true;
   }
 }
