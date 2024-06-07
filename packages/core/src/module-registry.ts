@@ -108,11 +108,11 @@ export class ModuleRegistry {
   }
 
   destroy() {
+    this.destroyed = true;
     this.moduleRegistries.forEach((moduleRegistry) => moduleRegistry.destroy());
     this.providerRegistry.destroy();
     providerToModuleRegistryMap.delete(this.moduleInstance);
     this.watchers.destroy();
     this.hooks.destroy();
-    this.destroyed = true;
   }
 }

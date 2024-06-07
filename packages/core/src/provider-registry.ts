@@ -229,6 +229,7 @@ export class ProviderRegistry {
   }
 
   destroy() {
+    this.destroyed = true;
     this.providerMap.forEach((provider) => {
       provider.status = ProviderStatus.UNINSTALLED;
       providerToModuleRegistryMap.delete(provider.instance);
@@ -237,6 +238,5 @@ export class ProviderRegistry {
         deletePlatformProvider(provider);
       }
     });
-    this.destroyed = true;
   }
 }
