@@ -8,18 +8,23 @@ export function Prop(propName?: string): PropertyDecorator {
 
     return {
       get(this: any) {
-        providerToComponentRegistryMap.get(this)?.watchers.getWatcher()?.checkNeedObservedProps();
+        const componentRegistry = providerToComponentRegistryMap.get(this);
+
+        if (!componentRegistry?.destroyed) {
+          componentRegistry?.watchers?.getWatcher?.()?.checkNeedObservedProps?.();
+        }
 
         let result: any;
         if (
-          !providerToComponentRegistryMap.has(this) ||
+          !componentRegistry ||
+          componentRegistry.destroyed ||
           // When initializing the watch, you may get the props.
           // At this time, the props have not been initialized.
-          !providerToComponentRegistryMap.get(this)?.props
+          !componentRegistry?.props
         ) {
           result = getInitialProps()?.[propertyKey];
         } else {
-          result = providerToComponentRegistryMap.get(this)?.props.getProp(propertyKey);
+          result = componentRegistry?.props.getProp(propertyKey);
         }
         if (typeof result === 'undefined') {
           result = defaultValue;

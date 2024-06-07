@@ -13,8 +13,13 @@ export function Autowired(): PropertyDecorator {
       get(this: any) {
         const providerType = resolveForwardRef(defaultValue?.()) || type;
         const Provider = getInitialProvider();
+        const moduleRegistry = providerToModuleRegistryMap.get(this);
 
-        let providerRegistry = providerToModuleRegistryMap.get(this)?.providerRegistry;
+        if (moduleRegistry?.destroyed) {
+          return;
+        }
+
+        let providerRegistry = moduleRegistry?.providerRegistry;
         if (!providerRegistry || providerRegistry?.destroyed) {
           providerRegistry = getInitialProviderRegistry() as ProviderRegistry;
         }
