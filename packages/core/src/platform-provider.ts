@@ -34,10 +34,10 @@ export function getPlatformProvider<T extends Provide>(
   return platformProviderMap.get(provide)?.instance;
 }
 
-export function waitForPlatformProvider<T extends Provide>(
-  provide: T,
+export function waitForVariable<T extends () => any>(
+  value: T,
   options?: IWaitForPlatformProviderOptions
-): Promise<ReturnProviderInstance<T>> {
+): Promise<ReturnType<T>> {
   return new Promise((resolve, reject) => {
     let done = false;
     let instance: ReturnProviderInstance<T> | undefined;
@@ -47,7 +47,7 @@ export function waitForPlatformProvider<T extends Provide>(
       timeout: options?.timeout,
       task: () => {
         try {
-          instance = getPlatformProvider(provide);
+          instance = value();
         } catch (error) {
           done = true;
           reject(error);
@@ -61,4 +61,11 @@ export function waitForPlatformProvider<T extends Provide>(
       checkDone: () => done,
     });
   });
+}
+
+export function waitForPlatformProvider<T extends Provide>(
+  provide: T,
+  options?: IWaitForPlatformProviderOptions
+): Promise<ReturnProviderInstance<T>> {
+  return waitForVariable(() => getPlatformProvider(provide) as ReturnProviderInstance<T>, options);
 }
