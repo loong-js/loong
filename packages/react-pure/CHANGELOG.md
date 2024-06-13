@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.53](https://github.com/loong-js/loong/compare/v1.1.0-alpha.52...v1.1.0-alpha.53) (2024-06-13)
+
+**Note:** Version bump only for package @loong-js/react-pure
+
+
+
+
+
 # [1.1.0-alpha.52](https://github.com/loong-js/loong/compare/v1.1.0-alpha.51...v1.1.0-alpha.52) (2024-06-08)
 
 

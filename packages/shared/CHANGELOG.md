@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.53](https://github.com/loong-js/loong/compare/v1.1.0-alpha.52...v1.1.0-alpha.53) (2024-06-13)
+
+
+### Bug Fixes
+
+* **packages/shared/src/utils/polling-control-center.ts:** fix timeout not add initialTime ([b5eec85](https://github.com/loong-js/loong/commit/b5eec8557a3132273c2a54d2b71a43fed16b29b6))
+
+
+
+
+
 # [1.1.0-alpha.47](https://github.com/loong-js/loong/compare/v1.1.0-alpha.46...v1.1.0-alpha.47) (2024-06-07)
 
 
