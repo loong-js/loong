@@ -61,6 +61,10 @@ export class PollingControlCenter {
     queueItem.initialTime = Date.now();
     queueItem.timeToBeExecuted = queueItem.initialTime + queueItem.interval;
 
+    if (queueItem.timeout) {
+      queueItem.timeout += queueItem.initialTime;
+    }
+
     if (this.options.autorun) {
       this.run();
     }
