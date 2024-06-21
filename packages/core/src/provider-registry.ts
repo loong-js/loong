@@ -111,7 +111,8 @@ export class ProviderRegistry {
       hasBasicProvider(provider) ? provider.provide : provider
     );
 
-    // if declared in providers, then do not register
+    // if declared in providers,
+    // then do not register
     if (!providerResult) {
       return;
     }
