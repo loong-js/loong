@@ -20,6 +20,7 @@ import { error } from './utils/error';
 
 // Prevent circular dependency.
 export enum ProviderStatus {
+  INITIAL,
   INSTANTIATING,
   INSTANTIATED,
   UNINSTALLED,
@@ -71,6 +72,23 @@ export class ProviderRegistry {
   }
 
   private initializeMap() {
+    [...this.providers, this.module].forEach((provider) => {
+      let basicProvider: IBasicProvider;
+      if (hasBasicProvider(provider)) {
+        basicProvider = provider;
+        basicProvider.useClass = provider.useClass || (provider.provide as IProviderConstructor);
+      } else {
+        basicProvider = {
+          // Type of provider to look for.
+          provide: provider,
+          useClass: provider,
+        };
+      }
+      this.providerMap.set(basicProvider.provide, {
+        basicProvider,
+        status: ProviderStatus.INITIAL,
+      });
+    });
     this.dependencies.forEach((dependency) => {
       if (isPlainObject(dependency)) {
         this.dependencyMap.set(dependency.basicProvider.provide, dependency);
@@ -89,18 +107,16 @@ export class ProviderRegistry {
   }
 
   registerProvider(provider: Provider, instantiatingProvider?: IProviderConstructor) {
-    let basicProvider: IBasicProvider;
+    const providerResult = this.providerMap.get(
+      hasBasicProvider(provider) ? provider.provide : provider
+    );
 
-    if (hasBasicProvider(provider)) {
-      basicProvider = provider;
-      basicProvider.useClass = provider.useClass || (provider.provide as IProviderConstructor);
-    } else {
-      basicProvider = {
-        // Type of provider to look for.
-        provide: provider,
-        useClass: provider,
-      };
+    // if declared in providers, then do not register
+    if (!providerResult) {
+      return;
     }
+
+    const { basicProvider, status } = providerResult;
 
     if (!basicProvider.provide) {
       error('Providers must have the provide attribute');
@@ -115,11 +131,11 @@ export class ProviderRegistry {
       error(`${Provider.name} is not registered with injectable`);
     }
 
-    if (this.providerMap.get(provide)?.status === ProviderStatus.INSTANTIATED) {
+    if (status === ProviderStatus.INSTANTIATED) {
       return;
     }
 
-    if (this.providerMap.get(provide)?.status === ProviderStatus.INSTANTIATING) {
+    if (status === ProviderStatus.INSTANTIATING) {
       error(
         `Circular dependency found ${Provider.name} -> ${instantiatingProvider?.name} -> ${Provider.name}`
       );
