@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.54](https://github.com/loong-js/loong/compare/v1.1.0-alpha.53...v1.1.0-alpha.54) (2024-06-21)
+
+
+### Bug Fixes
+
+* **packages/core/src/provider-registry.ts:** if declared in providers, then do not register ([7a54388](https://github.com/loong-js/loong/commit/7a543886b47b0e59818a4ab6bd77447e95a56509))
+
+
+
+
+
 # [1.1.0-alpha.53](https://github.com/loong-js/loong/compare/v1.1.0-alpha.52...v1.1.0-alpha.53) (2024-06-13)
 
 
