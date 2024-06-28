@@ -1,11 +1,21 @@
 import { ModuleObserve } from './';
-import { IWatchParameters, targetToWatchNameAndKeys } from './annotations/watch';
+import { IWatchParameters, WatchFlushType, targetToWatchNameAndKeys } from './annotations/watch';
 import { ProviderRegistry } from './provider-registry';
+
+type Effect = () => void;
+
+type Cleanup = () => void;
+
+type Update = () => void;
 
 export class Watchers {
   private watchers: Watcher[] = [];
 
   private watcher: Watcher | null = null;
+
+  private effects: Effect[] = [];
+
+  update?: Update;
 
   constructor(private providerRegistry: ProviderRegistry, private observe?: ModuleObserve) {}
 
@@ -39,6 +49,25 @@ export class Watchers {
     return this.watcher;
   }
 
+  addEffect(effect: Effect) {
+    this.effects.push(effect);
+  }
+
+  getEffects() {
+    return this.effects;
+  }
+
+  runEffects() {
+    const effects = this.effects;
+    this.effects = [];
+    effects.forEach((effect) => effect());
+  }
+
+  // a function that forces the view to be updated
+  setUpdate(update: Update) {
+    this.update = update;
+  }
+
   clearWatcher() {
     this.watcher = null;
   }
@@ -61,10 +90,12 @@ class Watcher {
 
   private dependencyList: any[] = [];
 
+  private cleanup?: Cleanup;
+
   constructor(
     private watchers: Watchers,
     private getProvider: () => any,
-    private effect: () => void,
+    private effect: () => void | Cleanup,
     private parameters: IWatchParameters,
     private observe: ModuleObserve
   ) {
@@ -99,15 +130,29 @@ class Watcher {
         (Array.isArray(result) && this.checkDependencyList(result)) ||
         (typeof result === 'boolean' && result)
       ) {
-        this.effect();
+        this.executeEffect();
       }
     } else if (names) {
       const currentDependencyList = this.wrapper(() => names.map((name) => provider[name]));
       if (this.checkDependencyList(currentDependencyList)) {
-        this.effect();
+        this.executeEffect();
       }
     }
   };
+
+  private executeEffect() {
+    this.cleanup?.();
+
+    // If the update is triggered after the view is updated，then add to the side effects
+    if (this.parameters.options?.flush === WatchFlushType.POST) {
+      this.watchers.addEffect(() => {
+        this.cleanup = this.effect() as Cleanup;
+      });
+      this.watchers.update?.();
+      return;
+    }
+    this.effect();
+  }
 
   // When there are changes to monitor props, you need to manually trigger the observation during setProps.
   watchAfterCheckObservedProps() {

@@ -295,16 +295,29 @@ const App = bind(AppCompnent)(({ $this }) => <div>App</div>);
 
 ### `Watch`
 
-观察值的变化，第一次执行或者满足条件都会执行注解的方法，注解接受一个函数，函数类型是：
+观察值的变化，第一次执行或者满足条件都会执行注解的方法，注解类型是：
 
 ```typescript
-// $this 是注解的类的实例，可以返回 boolean 或者依赖的属性数组
-type Data = ($this: any) => boolean | any[];
+export enum WatchFlushType {
+  // 变化后立即更新
+  SYNC = 'sync',
+  // 视图变化后才更新
+  POST = 'post',
+}
 
-export function Watch(data: Data): any;
-// 接受依赖的属性字符串
-export function Watch(...names: string[]): any;
-export function Watch(...args: (Data | string)[]): any;
+export interface IWatchOptions {
+  flush?: Lowercase<keyof typeof WatchFlushType>;
+}
+
+// $this 是注解的类的实例，可以返回 boolean 或者依赖的属性数组
+export type Predicate<T = any> = ($this: T) => boolean | (keyof T)[];
+
+export function Watch(predicate: Predicate, options?: IWatchOptions): MethodDecorator;
+export function Watch(name: string, ...names: (string | IWatchOptions)[]): MethodDecorator;
+export function Watch(
+  predicateOrName: Predicate | string,
+  ...nameOrOptions: (string | IWatchOptions | undefined)[]
+): MethodDecorator
 ```
 
 使用方式：
@@ -347,6 +360,18 @@ class AppCompnent {
   @Watch(({ count }) => count >= 1)
   change3() {
     console.log('change3 >>>', this.count);
+  }
+
+  // 满足条件才会触发方法
+  @Watch(({ count }) => count >= 1, {
+    flush: 'post',
+  })
+  change3() {
+    console.log('视图变化后更新 >>>', this.count);
+
+    return () => {
+      console.log('清除上一次的副作用');
+    };
   }
 }
 ```

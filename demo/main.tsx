@@ -1,5 +1,4 @@
 import {
-  Action,
   bind,
   Component,
   Hook,
@@ -7,14 +6,25 @@ import {
   Prop,
   waitForPlatformProvider,
   Watch,
-} from '@loong-js/react';
+} from '@loong-js/react-mobx';
+import { makeAutoObservable } from 'mobx';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+
 @Component()
 class AppCompnent {
   count = 3;
 
-  @Action()
+  constructor() {
+    makeAutoObservable(
+      this,
+      {},
+      {
+        autoBind: true,
+      }
+    );
+  }
+
   add() {
     this.count += 1;
   }
@@ -32,16 +42,28 @@ class Service {
 
   constructor() {
     console.log('run >>>', this.countAlias);
+    makeAutoObservable(
+      this,
+      {},
+      {
+        autoBind: true,
+      }
+    );
   }
 
-  @Action()
   increase() {
     this.count += 1;
   }
 
-  @Watch('count')
+  @Watch('count', {
+    flush: 'post',
+  })
   watch() {
     console.log('run watch >>>', this.count);
+
+    return () => {
+      console.log('run watch >>> cleanup');
+    };
   }
 
   @Hook()
@@ -52,6 +74,13 @@ class Service {
   @Hook()
   unmount() {
     console.log('run >>> unmount');
+  }
+
+  @Watch('watchEffect')
+  watchEffect() {
+    return () => {
+      // 处理 effect
+    };
   }
 }
 
@@ -100,7 +129,7 @@ const Child = binder2(() => {
 });
 
 const App = binder<{ name?: string }>(({ $this }) => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   return (
     <div>
       [当前 count]: {count}{' '}

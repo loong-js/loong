@@ -15,6 +15,7 @@ import {
 } from 'react';
 import type { ComponentConstructor, ModuleObservable, ModuleObserve } from '.';
 import { BindContext } from './context';
+import { useForceUpdate } from '@loong-js/shared';
 
 export type PropsWith$This<T extends ComponentConstructor, P = Record<string, never>> = {
   $this: InstanceType<T>;
@@ -123,6 +124,7 @@ export function createBind(options?: ICreateBindOptions) {
           }
         }
 
+        const [forceUpdate, updateCount] = useForceUpdate();
         const [component, setComponent] =
           useState<ReturnType<Required<ComponentConstructor>['create']>>();
         const dependencies = useMemo(
@@ -133,6 +135,7 @@ export function createBind(options?: ICreateBindOptions) {
 
         component?.props.setProps(props);
         component?.hooks.invokeHook('setup');
+        component?.watchers.setUpdate(forceUpdate);
 
         useEffect(() => {
           const componentRegistry = (Component as Required<ComponentConstructor>).create({
@@ -152,6 +155,10 @@ export function createBind(options?: ICreateBindOptions) {
             component?.destroy();
           };
         }, [component]);
+
+        useEffect(() => {
+          component?.watchers.runEffects();
+        }, [component, updateCount]);
 
         if (!component) {
           return null;
