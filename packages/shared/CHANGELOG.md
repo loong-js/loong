@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.56](https://github.com/loong-js/loong/compare/v1.1.0-alpha.55...v1.1.0-alpha.56) (2024-06-28)
+
+
+### Features
+
+* **packages/core/src/annotations/watch.ts:** add watchOptions flush ([98a20f4](https://github.com/loong-js/loong/commit/98a20f43849579ebb372497c629b020145848873))
+
+
+
+
+
 # [1.1.0-alpha.53](https://github.com/loong-js/loong/compare/v1.1.0-alpha.52...v1.1.0-alpha.53) (2024-06-13)
 
 

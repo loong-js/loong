@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.56](https://github.com/loong-js/loong/compare/v1.1.0-alpha.55...v1.1.0-alpha.56) (2024-06-28)
+
+**Note:** Version bump only for package @loong-js/observer
+
+
+
+
+
 # [1.1.0-alpha.53](https://github.com/loong-js/loong/compare/v1.1.0-alpha.52...v1.1.0-alpha.53) (2024-06-13)
 
 **Note:** Version bump only for package @loong-js/observer
