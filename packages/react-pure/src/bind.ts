@@ -11,7 +11,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
 } from 'react';
 import type { ComponentConstructor, ModuleObservable, ModuleObserve } from '.';
 import { BindContext } from './context';
@@ -125,27 +124,25 @@ export function createBind(options?: ICreateBindOptions) {
         }
 
         const [forceUpdate, updateCount] = useForceUpdate();
-        const [component, setComponent] =
-          useState<ReturnType<Required<ComponentConstructor>['create']>>();
+        const component = useMemo(
+          () =>
+            (Component as Required<ComponentConstructor>).create({
+              initialProps: props,
+              observe: options?.observe,
+              observable: options?.observable,
+              dependencies: context.dependencies,
+            }),
+          []
+        );
         const dependencies = useMemo(
           () => component?.providerRegistry.getDependencies(),
-          [component]
+          []
         ) as any[];
-        const $this = useMemo(() => component?.getComponent(), [component]);
+        const $this = useMemo(() => component?.getComponent(), []);
 
         component?.props.setProps(props);
         component?.hooks.invokeHook('setup');
         component?.watchers.setUpdate(forceUpdate);
-
-        useEffect(() => {
-          const componentRegistry = (Component as Required<ComponentConstructor>).create({
-            initialProps: props,
-            observe: options?.observe,
-            observable: options?.observable,
-            dependencies: context.dependencies,
-          });
-          setComponent(componentRegistry);
-        }, []);
 
         useEffect(() => {
           component?.hooks.invokeHook('mounted');
@@ -154,15 +151,11 @@ export function createBind(options?: ICreateBindOptions) {
             component?.hooks.invokeHook('unmount');
             component?.destroy();
           };
-        }, [component]);
+        }, []);
 
         useEffect(() => {
           component?.watchers.runEffects();
-        }, [component, updateCount]);
-
-        if (!component) {
-          return null;
-        }
+        }, [updateCount]);
 
         return createElement(
           BindContext.Provider,
