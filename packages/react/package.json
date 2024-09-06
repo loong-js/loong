@@ -30,5 +30,6 @@
     "@loong-js/core": "^1.1.0-alpha.58",
     "@loong-js/observer": "^1.1.0-alpha.56",
     "@loong-js/react-pure": "^1.1.0-alpha.58"
-  }
+  },
+  "gitHead": "ea971ffac35f106cb0fccf5136805bda96714c79"
 }

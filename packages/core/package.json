@@ -22,5 +22,6 @@
   "dependencies": {
     "@loong-js/shared": "^1.1.0-alpha.56",
     "reflect-metadata": "^0.1.13"
-  }
+  },
+  "gitHead": "ea971ffac35f106cb0fccf5136805bda96714c79"
 }

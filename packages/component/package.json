@@ -22,5 +22,6 @@
   "dependencies": {
     "@loong-js/core": "^1.1.0-alpha.58",
     "@loong-js/shared": "^1.1.0-alpha.56"
-  }
+  },
+  "gitHead": "ea971ffac35f106cb0fccf5136805bda96714c79"
 }

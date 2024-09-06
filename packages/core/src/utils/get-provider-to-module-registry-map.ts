@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-// fixed an issue with access between multiple projects
+// Fixed an issue with access between multiple projects
 if (!window.__LOONG_PROVIDER_TO_MODULE_REGISTRY_MAP__) {
   window.__LOONG_PROVIDER_TO_MODULE_REGISTRY_MAP__ = new WeakMap();
 }
