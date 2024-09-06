@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.58](https://github.com/loong-js/loong/compare/v1.1.0-alpha.57...v1.1.0-alpha.58) (2024-09-06)
+
+
+### Bug Fixes
+
+* **get-provider-to-module-registry-map.ts:** providerToModuleRegistryMap modify to a global variable ([7b23fbe](https://github.com/loong-js/loong/commit/7b23fbe9c980ac11a2a8ecb227f5645d8eb87749))
+
+
+
+
+
 # [1.1.0-alpha.57](https://github.com/loong-js/loong/compare/v1.1.0-alpha.56...v1.1.0-alpha.57) (2024-09-06)
 
 
