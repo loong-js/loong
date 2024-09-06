@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.57](https://github.com/loong-js/loong/compare/v1.1.0-alpha.56...v1.1.0-alpha.57) (2024-09-06)
+
+
+### Bug Fixes
+
+* **packages/react-pure/src/bind.ts:** optimize component initialization ([bbd4045](https://github.com/loong-js/loong/commit/bbd4045e5ed83ea56b385fef0bf337fe4cbf5d59))
+
+
+
+
+
 # [1.1.0-alpha.56](https://github.com/loong-js/loong/compare/v1.1.0-alpha.55...v1.1.0-alpha.56) (2024-06-28)
 
 

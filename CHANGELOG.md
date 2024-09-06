@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.57](https://github.com/loong-js/loong/compare/v1.1.0-alpha.56...v1.1.0-alpha.57) (2024-09-06)
+
+
+### Bug Fixes
+
+* **get-provider-to-module-registry-map.ts:** providerToModuleRegistryMap modify to a global variable ([bb11c98](https://github.com/loong-js/loong/commit/bb11c98277cf737e76c4b4fbf239d15f22000d57))
+* **packages/react-pure/src/bind.ts:** optimize component initialization ([bbd4045](https://github.com/loong-js/loong/commit/bbd4045e5ed83ea56b385fef0bf337fe4cbf5d59))
+* **README.md:** @loong-js/babel-plugin-transform-typescript-metadata ([6ed8886](https://github.com/loong-js/loong/commit/6ed8886c89ab970fc1dff44c5901b57d4cd5336e))
+
+
+
+
+
 # [1.1.0-alpha.56](https://github.com/loong-js/loong/compare/v1.1.0-alpha.55...v1.1.0-alpha.56) (2024-06-28)
 
 
