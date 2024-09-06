@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.60](https://github.com/loong-js/loong/compare/v1.1.0-alpha.59...v1.1.0-alpha.60) (2024-09-06)
+
+
+### Bug Fixes
+
+* **core/react-pure:** fix local var to global var ([f149ac1](https://github.com/loong-js/loong/commit/f149ac1bc586e0adb61684f22e7ba6c0fed46bdd))
+
+
+
+
+
 # [1.1.0-alpha.59](https://github.com/loong-js/loong/compare/v1.1.0-alpha.58...v1.1.0-alpha.59) (2024-09-06)
 
 
