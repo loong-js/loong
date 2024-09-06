@@ -8,13 +8,24 @@ interface IWaitForPlatformProviderOptions {
   timeout?: number;
 }
 
-const platformProviderMap = new WeakMap<Provide, IProvider>();
+declare global {
+  interface Window {
+    __LOONG_PLATFORM_PROVIDER_MAP__: WeakMap<Provide, IProvider>;
+    __LOONG_POLLING_CONTROL_CENTER__: PollingControlCenter;
+  }
+}
 
-const pollingControlCenter = new PollingControlCenter({
-  interval: 100,
-  leading: true,
-  autorun: true,
-});
+if (!window.__LOONG_PLATFORM_PROVIDER_MAP__ || !window.__LOONG_POLLING_CONTROL_CENTER__) {
+  window.__LOONG_PLATFORM_PROVIDER_MAP__ = new WeakMap();
+  window.__LOONG_POLLING_CONTROL_CENTER__ = new PollingControlCenter({
+    interval: 100,
+    leading: true,
+    autorun: true,
+  });
+}
+
+const platformProviderMap = window.__LOONG_PLATFORM_PROVIDER_MAP__;
+const pollingControlCenter = window.__LOONG_POLLING_CONTROL_CENTER__;
 
 export function setPlatformProvider(provider: IProvider) {
   platformProviderMap.set(provider.basicProvider.provide, provider);

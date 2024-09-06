@@ -9,7 +9,8 @@ import { Hooks } from './hooks';
 import { hasBasicProvider, ProviderRegistry } from './provider-registry';
 import { error } from './utils/error';
 import { Watchers } from './watchers';
-import { providerToModuleRegistryMap } from './utils/get-provider-to-module-registry-map';
+
+export const providerToModuleRegistryMap = new WeakMap<any, ModuleRegistry>();
 
 const INITIALIZE_IMPORT_MODULE_OPTIONAL_OPTION_NAMES: string[] = ['observe', 'initialProps'];
 

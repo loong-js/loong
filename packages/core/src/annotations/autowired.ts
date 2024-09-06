@@ -1,7 +1,7 @@
 import { resolveForwardRef } from '../forward-ref';
 import { getInitialProvider } from '../initial-provider';
 import { getInitialProviderRegistry } from '../initial-provider-registry';
-import { providerToModuleRegistryMap } from '../utils/get-provider-to-module-registry-map';
+import { providerToModuleRegistryMap } from '../module-registry';
 import { ProviderRegistry } from '../provider-registry';
 
 export function Autowired(): PropertyDecorator {

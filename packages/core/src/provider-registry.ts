@@ -10,7 +10,7 @@ import {
 } from './annotations/module';
 import { resetInitialProvider, setInitialProvider } from './initial-provider';
 import { setInitialProviderRegistry } from './initial-provider-registry';
-import { providerToModuleRegistryMap } from './utils/get-provider-to-module-registry-map';
+import { providerToModuleRegistryMap } from './module-registry';
 import {
   deletePlatformProvider,
   getPlatformProvider,
