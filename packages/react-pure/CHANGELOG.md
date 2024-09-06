@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.59](https://github.com/loong-js/loong/compare/v1.1.0-alpha.58...v1.1.0-alpha.59) (2024-09-06)
+
+
+### Bug Fixes
+
+* **get-provider-to-module-registry-map.ts:** providerToModuleRegistryMap modify to a global variable ([dd33b65](https://github.com/loong-js/loong/commit/dd33b659a05ba6ea99e74353ce9a10b38019f616))
+
+
+
+
+
 # [1.1.0-alpha.58](https://github.com/loong-js/loong/compare/v1.1.0-alpha.57...v1.1.0-alpha.58) (2024-09-06)
 
 **Note:** Version bump only for package @loong-js/react-pure
