@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.61](https://github.com/loong-js/loong/compare/v1.1.0-alpha.60...v1.1.0-alpha.61) (2025-02-18)
+
+
+### Bug Fixes
+
+* **packages/core/src/platform-provider.ts:**  may occur before uninstallation ([057ea9e](https://github.com/loong-js/loong/commit/057ea9e2271bb3dcd88d578a8311aed438dc0df3))
+
+
+
+
+
 # [1.1.0-alpha.60](https://github.com/loong-js/loong/compare/v1.1.0-alpha.59...v1.1.0-alpha.60) (2024-09-06)
 
 
