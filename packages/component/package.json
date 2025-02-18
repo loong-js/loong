@@ -1,6 +1,6 @@
 {
   "name": "@loong-js/component",
-  "version": "1.1.0-alpha.62",
+  "version": "1.1.0-alpha.63",
   "description": "> TODO: description",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@loong-js/core": "^1.1.0-alpha.62",
+    "@loong-js/core": "^1.1.0-alpha.63",
     "@loong-js/shared": "^1.1.0-alpha.56"
   },
   "gitHead": "ea971ffac35f106cb0fccf5136805bda96714c79"
