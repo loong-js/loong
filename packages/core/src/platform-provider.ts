@@ -11,12 +11,16 @@ interface IWaitForPlatformProviderOptions {
 declare global {
   interface Window {
     __LOONG_PLATFORM_PROVIDER_MAP__: WeakMap<Provide, IProvider>;
+    // FIX: `setPlatformProvider` may occur before uninstallation.
+    // If this happens, new values need to be cached first and reset during uninstallation.
+    __LOONG_PLATFORM_PROVIDER_FIX_CACHE_MAP__: WeakMap<Provide, IProvider>;
     __LOONG_POLLING_CONTROL_CENTER__: PollingControlCenter;
   }
 }
 
 if (!window.__LOONG_PLATFORM_PROVIDER_MAP__ || !window.__LOONG_POLLING_CONTROL_CENTER__) {
   window.__LOONG_PLATFORM_PROVIDER_MAP__ = new WeakMap();
+  window.__LOONG_PLATFORM_PROVIDER_FIX_CACHE_MAP__ = new WeakMap();
   window.__LOONG_POLLING_CONTROL_CENTER__ = new PollingControlCenter({
     interval: 100,
     leading: true,
@@ -26,13 +30,22 @@ if (!window.__LOONG_PLATFORM_PROVIDER_MAP__ || !window.__LOONG_POLLING_CONTROL_C
 
 const platformProviderMap = window.__LOONG_PLATFORM_PROVIDER_MAP__;
 const pollingControlCenter = window.__LOONG_POLLING_CONTROL_CENTER__;
+const platformProviderFixCacheMap = window.__LOONG_PLATFORM_PROVIDER_FIX_CACHE_MAP__;
 
 export function setPlatformProvider(provider: IProvider) {
+  if (platformProviderMap.has(provider.basicProvider.provide)) {
+    platformProviderFixCacheMap.set(provider.basicProvider.provide, provider);
+  }
   platformProviderMap.set(provider.basicProvider.provide, provider);
 }
 
 export function deletePlatformProvider(provider: IProvider) {
   platformProviderMap.delete(provider.basicProvider.provide);
+
+  if (platformProviderFixCacheMap.has(provider.basicProvider.provide)) {
+    setPlatformProvider(provider);
+    platformProviderFixCacheMap.delete(provider.basicProvider.provide);
+  }
 }
 
 export function getPlatformProvider<T extends Provide>(
