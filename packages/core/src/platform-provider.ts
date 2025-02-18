@@ -40,11 +40,13 @@ export function setPlatformProvider(provider: IProvider) {
 }
 
 export function deletePlatformProvider(provider: IProvider) {
-  platformProviderMap.delete(provider.basicProvider.provide);
+  const provide = provider.basicProvider.provide;
 
-  if (platformProviderFixCacheMap.has(provider.basicProvider.provide)) {
-    setPlatformProvider(provider);
-    platformProviderFixCacheMap.delete(provider.basicProvider.provide);
+  platformProviderMap.delete(provide);
+
+  if (platformProviderFixCacheMap.has(provide)) {
+    setPlatformProvider(platformProviderFixCacheMap.get(provide) as IProvider);
+    platformProviderFixCacheMap.delete(provide);
   }
 }
 
