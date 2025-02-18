@@ -11,16 +11,12 @@ interface IWaitForPlatformProviderOptions {
 declare global {
   interface Window {
     __LOONG_PLATFORM_PROVIDER_MAP__: WeakMap<Provide, IProvider>;
-    // FIX: `setPlatformProvider` may occur before uninstallation.
-    // If this happens, new values need to be cached first and reset during uninstallation.
-    __LOONG_PLATFORM_PROVIDER_FIX_CACHE_MAP__: WeakMap<Provide, IProvider>;
     __LOONG_POLLING_CONTROL_CENTER__: PollingControlCenter;
   }
 }
 
 if (!window.__LOONG_PLATFORM_PROVIDER_MAP__ || !window.__LOONG_POLLING_CONTROL_CENTER__) {
   window.__LOONG_PLATFORM_PROVIDER_MAP__ = new WeakMap();
-  window.__LOONG_PLATFORM_PROVIDER_FIX_CACHE_MAP__ = new WeakMap();
   window.__LOONG_POLLING_CONTROL_CENTER__ = new PollingControlCenter({
     interval: 100,
     leading: true,
@@ -30,23 +26,23 @@ if (!window.__LOONG_PLATFORM_PROVIDER_MAP__ || !window.__LOONG_POLLING_CONTROL_C
 
 const platformProviderMap = window.__LOONG_PLATFORM_PROVIDER_MAP__;
 const pollingControlCenter = window.__LOONG_POLLING_CONTROL_CENTER__;
-const platformProviderFixCacheMap = window.__LOONG_PLATFORM_PROVIDER_FIX_CACHE_MAP__;
 
 export function setPlatformProvider(provider: IProvider) {
-  if (platformProviderMap.has(provider.basicProvider.provide)) {
-    platformProviderFixCacheMap.set(provider.basicProvider.provide, provider);
+  const provide = provider.basicProvider.provide;
+  // FIX: `setPlatformProvider` may occur before uninstallation.
+  // If this happens, new values need to be cached first and reset during uninstallation.
+  if (platformProviderMap.has(provide)) {
+    platformProviderMap.delete(provide);
   }
-  platformProviderMap.set(provider.basicProvider.provide, provider);
+  platformProviderMap.set(provide, provider);
 }
 
 export function deletePlatformProvider(provider: IProvider) {
   const provide = provider.basicProvider.provide;
 
-  platformProviderMap.delete(provide);
-
-  if (platformProviderFixCacheMap.has(provide)) {
-    setPlatformProvider(platformProviderFixCacheMap.get(provide) as IProvider);
-    platformProviderFixCacheMap.delete(provide);
+  // Because setPlatformProvider always sets the latest value, it is necessary to determine the status when deleting.
+  if (platformProviderMap.get(provide)?.status === ProviderStatus.UNINSTALLED) {
+    platformProviderMap.delete(provide);
   }
 }
 
