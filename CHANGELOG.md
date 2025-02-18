@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-alpha.62](https://github.com/loong-js/loong/compare/v1.1.0-alpha.61...v1.1.0-alpha.62) (2025-02-18)
+
+
+### Bug Fixes
+
+* **packages/core/src/platform-provider.ts:** deletePlatformProvider use new provide ([f9fa756](https://github.com/loong-js/loong/commit/f9fa7565104592f3f160466a1042a37e320de398))
+
+
+
+
+
 # [1.1.0-alpha.61](https://github.com/loong-js/loong/compare/v1.1.0-alpha.60...v1.1.0-alpha.61) (2025-02-18)
 
 
