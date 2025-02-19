@@ -269,6 +269,8 @@ const App = bind(AppCompnent)<{ name: string }>(({ $this }) => (
 ReactDOM.render(<App name="app" />, document.getElementById('root'));
 ```
 
+> 注意：如果是 Mobx6，使用 `makeAutoObservable(this, { name: false })` 需要把属性设置为 `falsee`。
+
 ### `Hook`
 
 在 UI 控制类或者服务上绑定组件的钩子，使用方式：
